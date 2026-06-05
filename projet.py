@@ -31,13 +31,14 @@ def add_account():
     password = input("Entrez votre mot de passe: ")
 
     accounts=read_account()[1]
-    password_status, password_len = password_stats(password)
+    password_strength, password_len = password_stats(password)
 
     accounts[site] = {
         "id": identifiant,
         "password": encrypt_password(password,key),
-        "password_status": password_status,
+        "password_strength": password_strength,
         "password_len": password_len
+        # AJOUTER DATE
     }
 
     with open("accounts.json", "w") as file:
@@ -74,5 +75,9 @@ def encrypt_password(password, key):
 
 def decrypt_password(encrypted_password, key):
     return Fernet(key).decrypt(encrypted_password.encode()).decode()
+
+# ------ A FAIRE ------
+def generate_password():
+    return
 
 add_account()

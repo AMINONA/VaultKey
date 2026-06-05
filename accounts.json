@@ -1,14 +1,8 @@
 {
-    "site": {
-        "id": "dodo",
-        "password": "gAAAAABqIpHxdbYoNQMF2324T3mEv1nMWZUrHUQe3orAiahR05btiPNuFEtd5Lykjt8Ez2EZArDy2W9Gk2GNqN_c90xW58vwvg==",
-        "password_status": "very strong",
-        "password_len": 11
-    },
-    "site2": {
-        "id": "test",
-        "password": "gAAAAABqIpIXV_VumX6EeJkJ7f7COtxjsZ-i4Kqbl4zJUud-NK62V8DupnzQnFOQxoV59zNJ9hmR8KhKwAq6vPvAjPndsJLfOg==",
-        "password_status": "bad",
-        "password_len": 12
+    "test": {
+        "id": "AZR\"('\"(",
+        "password": "gAAAAABqIpixh7uGLyYFh5RXDu7CiWj2H3vWSalQrsjk-20-my_7LcMZIQo6aHHPhkMYelYjAGyTcDFSlryyrGwp6z-DLTGe4w==",
+        "password_strength": "bad",
+        "password_len": 4
     }
 }
