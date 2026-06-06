@@ -20,10 +20,10 @@ def read_account():
     try:
         with open("accounts.json", "r") as file:
             accounts = json.load(file)
+        return("succes",accounts)
     except (FileNotFoundError, json.JSONDecodeError):
         accounts = {}
-        return("error",accounts)
-    return("succes",accounts)
+        return ("error",accounts)
 
 def add_account():
     site = input("Entrez le nom du site: ")
