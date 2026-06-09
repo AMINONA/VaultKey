@@ -29,7 +29,7 @@ def get_accounts():
         return(accounts)
     return(accounts)
 
-def add_account(site,identifiant,password,date):
+def add_account(site,identifiant,password,date): # !!!! Attention ! Le password ne doit pas contenir de " !!!!!!!
 
     accounts=get_accounts()
     password_strength, password_len = password_stats(password)
@@ -92,6 +92,12 @@ def generate_password():
     chars = string.ascii_letters + string.digits + string.punctuation
     return ''.join(secrets.choice(chars) for _ in range(20))
 
+# ------ A FAIRE ------
+def delete_account():
+    return
+
+def update_account():
+    return
 
 class Api:
     def get_accounts(self):
