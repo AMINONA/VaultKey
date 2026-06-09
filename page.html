@@ -877,7 +877,7 @@ async function revealPwd(site) {
     if (!data) return;
 
     const date = new Date().toLocaleDateString('fr-FR');
-    const result = await pywebview.api.add_account(data.site, data.user, data.pwd, date);
+    const result = await pywebview.api.add_account(data.site, data.user, data.pwd);
 
     if (result === 'account added') {
         await loadPasswords(); // recharge la liste depuis Python
