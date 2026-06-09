@@ -4,6 +4,7 @@ import os
 import webview
 import secrets
 import string
+import time
 
 def load_key():
     if not os.path.exists("key.key"):
@@ -29,7 +30,7 @@ def get_accounts():
         return(accounts)
     return(accounts)
 
-def add_account(site,identifiant,password,date): # !!!! Attention ! Le password ne doit pas contenir de " !!!!!!!
+def add_account(site,identifiant,password): # !!!! Attention ! Le password ne doit pas contenir de " !!!!!!!
 
     accounts=get_accounts()
     password_strength, password_len = password_stats(password)
@@ -39,7 +40,7 @@ def add_account(site,identifiant,password,date): # !!!! Attention ! Le password 
         "password": encrypt_password(password,key),
         "password_strength": password_strength,
         "password_len": password_len,
-        "date": date
+        "date": time.strftime("%d/%m/%Y/%H/%M")
     }
 
     with open("accounts.json", "w") as file:
@@ -116,4 +117,7 @@ window = webview.create_window(
     js_api=Api()
 )
 
+# add_account("Test52","dodi","idjeisojfeiFJEMSIO","09/06/2026")
 webview.start()
+date = time.strftime("%d/%m/%Y/%H/%M")
+print(date)

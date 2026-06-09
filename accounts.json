@@ -1,9 +1,9 @@
 {
     "Test52": {
-        "id": "dodo",
-        "password": "gAAAAABqJ9zNimvXEpfIG5F31Nfn8MlcBJhdf64lwNW1sxeaTmslQ1nu83hLB_rbe9PElAQlFPHwtoYwLPsWjfbT0ZwHP8fWld4FhC1OLdGes_a-dep9arY=",
-        "password_strength": "strong",
-        "password_len": 20,
+        "id": "dodi",
+        "password": "gAAAAABqKArj_7yFnbXYNhmJMhJ1IGv1IL2iT-juBADKfurO4I15jLIdl6cqDYTtyjffgFrTqCJRHf3vuoU9eyb_E7_pqxU7Wm5CHSh7Ruf3FJcnOHdRdQI=",
+        "password_strength": "medium",
+        "password_len": 18,
         "date": "09/06/2026"
     }
 }
