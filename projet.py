@@ -1,6 +1,9 @@
 import json
 from cryptography.fernet import Fernet
 import os
+import webview
+import secrets
+import string
 
 def load_key():
     if not os.path.exists("key.key"):
@@ -16,33 +19,32 @@ def load_key():
 
 key=load_key()
 
-def read_account():
+def get_accounts():
     try:
         with open("accounts.json", "r") as file:
             accounts = json.load(file)
     except (FileNotFoundError, json.JSONDecodeError):
         accounts = {}
-        return("error",accounts)
-    return("succes",accounts)
+        return(accounts)
+    return(accounts)
 
-def add_account():
-    site = input("Entrez le nom du site: ")
-    identifiant = input("Entrez votre identifiant: ")
-    password = input("Entrez votre mot de passe: ")
+def add_account(site,identifiant,password,date):
 
-    accounts=read_account()[1]
+    accounts=get_accounts()
     password_strength, password_len = password_stats(password)
 
     accounts[site] = {
         "id": identifiant,
         "password": encrypt_password(password,key),
         "password_strength": password_strength,
-        "password_len": password_len
-        # AJOUTER DATE
+        "password_len": password_len,
+        "date": date
     }
 
     with open("accounts.json", "w") as file:
         json.dump(accounts, file, indent=4)
+    
+    return ("account added")
 
 def password_stats(password):
     if len(password) < 8:
@@ -76,8 +78,34 @@ def encrypt_password(password, key):
 def decrypt_password(encrypted_password, key):
     return Fernet(key).decrypt(encrypted_password.encode()).decode()
 
-# ------ A FAIRE ------
-def generate_password():
-    return
+def get_password (site):
+    accounts = get_accounts()
+    
+    if site not in accounts:
+        return None
 
-add_account()
+    password = decrypt_password(accounts[site]["password"],key)
+    return password
+
+def generate_password():
+    chars = string.ascii_letters + string.digits + string.punctuation
+    return ''.join(secrets.choice(chars) for _ in range(20))
+
+
+class Api:
+    def get_accounts(self):
+        return get_accounts()
+    def get_password(self, site):
+        return get_password(site)
+    def generate_password(self):
+        return generate_password()
+    def add_account(self, site, identifiant, password,date):
+        return add_account(site, identifiant, password,date)
+    
+window = webview.create_window(
+    "Password Manager",
+    "index.html",
+    js_api=Api()
+)
+
+webview.start()
