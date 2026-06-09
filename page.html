@@ -716,14 +716,21 @@
      *  Chaque entrée : { id, site, user, pwd, strength, date }
      *  strength : 'weak' | 'medium' | 'strong'
      * ═══════════════════════════════════════════════════════ */
-    let passwords = [
-        { id: 1, site: 'GitHub',     user: 'dorien.drouet@esaip.fr',  pwd: 'Gh!t3r$2024xZ',  strength: 'strong', date: '12/05/2025' },
-        { id: 2, site: 'Gmail',      user: 'dorien.drouet@gmail.com', pwd: 'pass1234',         strength: 'weak',   date: '03/01/2025' },
-        { id: 3, site: 'LinkedIn',   user: 'dorien.drouet@esaip.fr',  pwd: 'Link3d!n#99Xp',   strength: 'strong', date: '20/04/2025' },
-        { id: 4, site: 'Netflix',    user: 'dorien@gmail.com',        pwd: 'netflix2024',      strength: 'medium', date: '15/03/2025' },
-        { id: 5, site: 'Instagram',  user: 'dorien_d',                pwd: 'insta',            strength: 'weak',   date: '01/01/2025' },
-        { id: 6, site: 'CIC Banque', user: '1234567890',              pwd: 'CiC!$ecur3#2025',  strength: 'strong', date: '10/05/2025' },
-    ];
+    let passwords = [];
+
+    async function loadPasswords() {
+        const [status, accounts] = await pywebview.api.get_accounts();
+        passwords = Object.entries(accounts).map(([site, data]) => ({
+        site,
+        user: data.id,
+        pwd:  '••••••••', // masqué, mot de passe non chargé
+        strength: data.password_strength,
+        date: data.date
+        }));
+    renderList();
+}
+
+window.addEventListener('pywebviewready', loadPasswords);
 
     let currentStrength = 'all';
     let searchQuery     = '';
@@ -775,10 +782,10 @@
                     </div>
                 </div>
                 <div class="pwd-actions">
-                    <button class="icon-btn" onclick="copyPwd(${p.id})" title="Copier le mot de passe">
+                    <button class="icon-btn" onclick="copyPwd('${p.site}')" title="Copier le mot de passe">
                         <i class="fa-regular fa-copy"></i>
                     </button>
-                    <button class="icon-btn" onclick="revealPwd(${p.id})" title="Afficher le mot de passe">
+                    <button class="icon-btn" onclick="revealPwd('${p.site}')" title="Afficher le mot de passe">
                         <i class="fa-regular fa-eye"></i>
                     </button>
                     <!--
@@ -794,7 +801,7 @@
                         via window.pywebview.api.delete_password(id).
                         Python supprime l'entrée et appelle removePassword(id).
                     -->
-                    <button class="icon-btn danger" onclick="onDeleteClick(${p.id})" title="Supprimer">
+                    <button class="icon-btn danger" onclick="onDeleteClick('${p.site}')" title="Supprimer">
                         <i class="fa-regular fa-trash-can"></i>
                     </button>
                 </div>
@@ -813,18 +820,16 @@
     }
 
     /* ── COPIER / RÉVÉLER ── */
-    function copyPwd(id) {
-        const p = passwords.find(x => x.id === id);
-        if (!p) return;
-        navigator.clipboard.writeText(p.pwd).catch(() => {});
-        showToast('Mot de passe copié pour ' + p.site);
-    }
+async function copyPwd(site) {
+    const pwd = await pywebview.api.get_password(site);
+    navigator.clipboard.writeText(pwd);
+    showToast('Mot de passe copié pour ' + site);
+}
 
-    function revealPwd(id) {
-        const p = passwords.find(x => x.id === id);
-        if (!p) return;
-        showToast(p.pwd);
-    }
+async function revealPwd(site) {
+    const pwd = await pywebview.api.get_password(site);
+    showToast(pwd);
+}
 
     /* ═══════════════════════════════════════════════════════
      *  SUPPRIMER
@@ -839,8 +844,8 @@
     }
 
     /* Appelé par Python après confirmation de suppression */
-    function removePassword(id) {
-        passwords = passwords.filter(p => p.id !== id);
+    function removePassword(site) {
+        passwords = passwords.filter(p => p.site !== site);
         renderList();
         showToast('Entrée supprimée');
     }
@@ -866,38 +871,20 @@
         document.getElementById('modal-box').dataset.editId = id;
     }
 
-    /* ═══════════════════════════════════════════════════════
-     *  SAUVEGARDER
-     *  onSaveClick() — point d'entrée depuis le bouton HTML.
-     *  Collecte les données et les transmet à Python.
-     *  TODO Python : décommente la ligne pywebview.
-     * ═══════════════════════════════════════════════════════ */
-    function onSaveClick() {
-        const data = getPwdFormData();
-        if (!data) return;
 
-        // TODO Python :
-        // const editId = document.getElementById('modal-box').dataset.editId;
-        // if (editId) {
-        //     window.pywebview.api.update_password(editId, data)
-        //       → Python chiffre, met à jour, calcule la force
-        //       → puis appelle updatePassword(entry) en JS
-        // } else {
-        //     window.pywebview.api.save_password(data)
-        //       → Python chiffre, stocke, calcule la force
-        //       → puis appelle addPassword(entry) en JS
-        // }
+ async function onSaveClick() {
+    const data = getPwdFormData();
+    if (!data) return;
 
-        // Fallback local — à retirer quand Python est branché
-        const editId = document.getElementById('modal-box').dataset.editId;
-        const date   = new Date().toLocaleDateString('fr-FR');
-        if (editId) {
-            updatePassword({ ...data, id: Number(editId), strength: 'medium', date });
-        } else {
-            const newId = Math.max(...passwords.map(p => p.id), 0) + 1;
-            addPassword({ ...data, id: newId, strength: 'medium', date });
-        }
+    const date = new Date().toLocaleDateString('fr-FR');
+    const result = await pywebview.api.add_account(data.site, data.user, data.pwd, date);
+
+    if (result === 'account added') {
+        await loadPasswords(); // recharge la liste depuis Python
+        closeModal();
+        showToast('Mot de passe ajouté');
     }
+}
 
     /* Appelé par Python après ajout réussi */
     function addPassword(entry) {
@@ -963,19 +950,13 @@
      *  Python génère le mot de passe, appelle setField('f-pwd', pwd)
      *  puis setStrength('strong').
      * ═══════════════════════════════════════════════════════ */
-    function generatePassword() {
-        // TODO Python : window.pywebview.api.on_generate_request()
-
-        // Fallback local — à retirer quand Python est branché
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
-        let pwd = '';
-        for (let i = 0; i < 16; i++) pwd += chars[Math.floor(Math.random() * chars.length)];
-        setField('f-pwd', pwd);
-        document.getElementById('f-pwd').type = 'text';
-        document.getElementById('eye-icon').className = 'fa-solid fa-eye-slash';
-        setStrength('');
-        showToast('Mot de passe généré');
-    }
+   async function generatePassword() {
+    const pwd = await pywebview.api.generate_password();
+    setField('f-pwd', pwd);
+    document.getElementById('f-pwd').type = 'text';
+    document.getElementById('eye-icon').className = 'fa-solid fa-eye-slash';
+    showToast('Mot de passe généré');
+}
 
     /* ── AFFICHER / MASQUER MOT DE PASSE ── */
     function togglePwdVisibility() {
