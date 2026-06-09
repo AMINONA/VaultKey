@@ -40,7 +40,7 @@ def add_account(site,identifiant,password): # !!!! Attention ! Le password ne do
         "password": encrypt_password(password,key),
         "password_strength": password_strength,
         "password_len": password_len,
-        "date": time.strftime("%d/%m/%Y/%H/%M")
+        "date": time.strftime("%d/%m/%Y") + " à " + time.strftime("%H") + "h" + time.strftime("%S")
     }
 
     with open("accounts.json", "w") as file:
@@ -107,8 +107,8 @@ class Api:
         return get_password(site)
     def generate_password(self):
         return generate_password()
-    def add_account(self, site, identifiant, password,date):
-        return add_account(site, identifiant, password,date)
+    def add_account(self, site, identifiant, password):
+        return add_account(site, identifiant, password)
     def password_stats(self,password):
         return password_stats(password)
 window = webview.create_window(
@@ -119,5 +119,3 @@ window = webview.create_window(
 
 # add_account("Test52","dodi","idjeisojfeiFJEMSIO","09/06/2026")
 webview.start()
-date = time.strftime("%d/%m/%Y/%H/%M")
-print(date)
