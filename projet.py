@@ -108,7 +108,8 @@ class Api:
         return generate_password()
     def add_account(self, site, identifiant, password,date):
         return add_account(site, identifiant, password,date)
-    
+    def password_stats(self,password):
+        return password_stats(password)
 window = webview.create_window(
     "Password Manager",
     "page.html",
