@@ -1,18 +1,4 @@
 {
-    "Test52": {
-        "id": "dodi",
-        "password": "gAAAAABqKArj_7yFnbXYNhmJMhJ1IGv1IL2iT-juBADKfurO4I15jLIdl6cqDYTtyjffgFrTqCJRHf3vuoU9eyb_E7_pqxU7Wm5CHSh7Ruf3FJcnOHdRdQI=",
-        "password_strength": "medium",
-        "password_len": 18,
-        "date": "09/06/2026"
-    },
-    "Test60": {
-        "id": "doedicurus",
-        "password": "gAAAAABqKHY7_09PN12KDJJ4tTHHZT3ugMmBB5rvTjbFjq6UIdWEuQeUVpTfBAOGlomQ-eF1AJvCiBAsgXHNjK56J2Gdg15HtZcs3SZV3O5Ddrbb-u9P-TY=",
-        "password_strength": "strong",
-        "password_len": 20,
-        "date": "09/06/2026/22/23"
-    },
     "Test61": {
         "id": "doedidi",
         "password": "gAAAAABqKHcb0HJu10ViHI8bq-5DSoDkp9rWXgULgkpH8wlrScJYNhndKOacUHxzNJI10DX_yHjLP6-J9ZFN7-n-PtTq2eIbHohCzI_w6HFgZkgiQgrFOH0=",

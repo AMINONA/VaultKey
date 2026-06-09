@@ -94,8 +94,18 @@ def generate_password():
     return ''.join(secrets.choice(chars) for _ in range(20))
 
 # ------ A FAIRE ------
-def delete_account():
-    return
+def delete_account(site):
+    accounts = get_accounts()
+
+    if site not in accounts:
+        return "error: Account not found"
+    
+    del accounts[site]
+
+    with open("accounts.json","w") as file:
+        json.dump(accounts, file, indent=4)
+    
+    return "Account deleted"
 
 def update_account():
     return
@@ -111,11 +121,13 @@ class Api:
         return add_account(site, identifiant, password)
     def password_stats(self,password):
         return password_stats(password)
+    def delete_account(self,site):
+        return delete_account(site)
+
 window = webview.create_window(
     "Password Manager",
     "page.html",
     js_api=Api()
 )
 
-# add_account("Test52","dodi","idjeisojfeiFJEMSIO","09/06/2026")
 webview.start()
