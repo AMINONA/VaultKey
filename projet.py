@@ -49,7 +49,7 @@ def add_account(site,identifiant,password,date): # !!!! Attention ! Le password 
 
 def password_stats(password):
     if len(password) < 8:
-        return ("bad",len(password))
+        return ("weak",len(password))
 
     has_lower = False
     has_upper = False
@@ -67,11 +67,11 @@ def password_stats(password):
             has_special = True
 
     if has_lower and has_upper and has_digit and has_special:
-        return ("very strong",len(password))
-    elif has_lower and has_upper:
         return ("strong",len(password))
+    elif has_lower and has_upper:
+        return ("medium",len(password))
     else:
-        return ("bad",len(password))
+        return ("weak",len(password))
 
 def encrypt_password(password, key):
     return(Fernet(key).encrypt(password.encode()).decode())
@@ -111,7 +111,7 @@ class Api:
     
 window = webview.create_window(
     "Password Manager",
-    "index.html",
+    "page.html",
     js_api=Api()
 )
 
