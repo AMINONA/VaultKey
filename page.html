@@ -719,14 +719,14 @@
     let passwords = [];
 
     async function loadPasswords() {
-        const [status, accounts] = await pywebview.api.get_accounts();
-        passwords = Object.entries(accounts).map(([site, data]) => ({
+    const accounts = await pywebview.api.get_accounts();
+    passwords = Object.entries(accounts).map(([site, data]) => ({
         site,
         user: data.id,
-        pwd:  '••••••••', // masqué, mot de passe non chargé
+        pwd:  '••••••••',
         strength: data.password_strength,
-        date: data.date
-        }));
+        date: data.date ?? '—'
+    }));
     renderList();
 }
 
