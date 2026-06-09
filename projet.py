@@ -6,6 +6,7 @@ import secrets
 import string
 import time
 
+# ----- Definition des fonctions -----
 def load_key():
     if not os.path.exists("key.key"):
         key = Fernet.generate_key()
@@ -93,7 +94,6 @@ def generate_password():
     chars = string.ascii_letters + string.digits + string.punctuation
     return ''.join(secrets.choice(chars) for _ in range(20))
 
-# ------ A FAIRE ------
 def delete_account(site):
     accounts = get_accounts()
 
@@ -107,9 +107,11 @@ def delete_account(site):
     
     return "Account deleted"
 
+# ------ A FAIRE ------
 def update_account():
     return
 
+# ----- Fonctions exposés au JS -----
 class Api:
     def get_accounts(self):
         return get_accounts()
@@ -124,6 +126,7 @@ class Api:
     def delete_account(self,site):
         return delete_account(site)
 
+# ----- Création et lancement de la fenêtre interface -----
 window = webview.create_window(
     "Password Manager",
     "page.html",
