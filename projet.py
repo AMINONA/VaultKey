@@ -23,7 +23,7 @@ def get_accounts():
     try:
         with open("accounts.json", "r") as file:
             accounts = json.load(file)
-        return("succes",accounts)
+        return(accounts)
     except (FileNotFoundError, json.JSONDecodeError):
         accounts = {}
         return(accounts)
