@@ -1,6 +1,5 @@
 accounts.json
 key.key
-build.bat
 dist/
 build/
-projet.spec
+VaultKey.spec
