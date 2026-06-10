@@ -29,7 +29,6 @@ def get_accounts():
     except (FileNotFoundError, json.JSONDecodeError):
         accounts = {}
         return(accounts)
-    return(accounts)
 
 def add_account(site,identifiant,password): # !!!! Attention ! Le password ne doit pas contenir de " !!!!!!!
 
@@ -111,8 +110,25 @@ def delete_account(site):
     return "Account deleted"
 
 # ------ A FAIRE ------
-def update_account():
-    return
+def update_account(site,identifiant,password):
+    accounts=get_accounts()
+    password_strength, password_len = password_stats(password)
+
+    if site not in accounts:
+        return "errror: Account not found"
+
+    accounts[site] = {
+        "id": identifiant,
+        "password": encrypt_password(password,key),
+        "password_strength": password_strength,
+        "password_len": password_len,
+        "date": time.strftime("%d/%m/%Y") + " à " + time.strftime("%H") + "h" + time.strftime("%S")
+    }
+
+    with open("accounts.json", "w") as file:
+        json.dump(accounts, file, indent=4)
+    
+    return ("account updated")
 
 # ----- Fonctions exposés au JS -----
 class Api:
@@ -128,6 +144,8 @@ class Api:
         return password_stats(password)
     def delete_account(self,site):
         return delete_account(site)
+    def update_account(self,site,identifiant,password):
+        return update_account(site,identifiant,password)
 
 # ----- Création et lancement de la fenêtre interface -----
 window = webview.create_window(
