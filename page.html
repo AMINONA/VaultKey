@@ -708,6 +708,28 @@
         <span id="toast-msg">Copié dans le presse-papiers</span>
     </div>
 
+    <!-- MODALE CONFIRMATION SUPPRESSION -->
+<div class="modal-overlay" id="delete-overlay">
+    <div class="modal" style="width:400px;">
+        <div class="modal-header">
+            <h2 class="modal-title">Confirmer la suppression</h2>
+            <button class="modal-close" onclick="closeDeleteModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <p style="color:var(--text-muted);font-size:15px;margin-bottom:8px;">
+            Tu es sur le point de supprimer le mot de passe pour :
+        </p>
+        <p style="font-weight:600;font-size:17px;margin-bottom:28px;" id="delete-site-name"></p>
+        <div class="modal-footer">
+            <button class="btn btn-ghost" onclick="closeDeleteModal()">Annuler</button>
+            <button class="btn" style="background:var(--danger);color:#fff;font-weight:600;" onclick="confirmDelete()">
+                <i class="fa-solid fa-trash-can"></i> Supprimer
+            </button>
+        </div>
+    </div>
+</div>
+
 <script>
     /* ═══════════════════════════════════════════════════════
      *  DONNÉES
@@ -837,11 +859,26 @@ async function revealPwd(site) {
      *  TODO Python : décommente la ligne pywebview et supprime
      *  la ligne de fallback local quand ton API est prête.
      * ═══════════════════════════════════════════════════════ */
-    function onDeleteClick(id) {
-        // TODO Python : window.pywebview.api.delete_password(id)
-        //   → Python supprime l'entrée chiffrée, puis appelle removePassword(id)
-        removePassword(id); // fallback local — à retirer quand Python est branché
-    }
+    let siteToDelete = null;
+
+function onDeleteClick(site) {
+    siteToDelete = site;
+    document.getElementById('delete-site-name').textContent = site;
+    document.getElementById('delete-overlay').classList.add('open');
+}
+
+function closeDeleteModal() {
+    siteToDelete = null;
+    document.getElementById('delete-overlay').classList.remove('open');
+}
+
+async function confirmDelete() {
+    if (!siteToDelete) return;
+    await pywebview.api.delete_account(siteToDelete);
+    closeDeleteModal();
+    await loadPasswords();
+    showToast('Mot de passe supprimé');
+}
 
     /* Appelé par Python après confirmation de suppression */
     function removePassword(site) {
@@ -1013,5 +1050,7 @@ async function revealPwd(site) {
     renderList();
 </script>
 
+
 </body>
+
 </html>
