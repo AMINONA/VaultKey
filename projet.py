@@ -7,6 +7,11 @@ import string
 import time
 
 # ----- Definition des fonctions -----
+def get_path(filename):
+    data_dir = os.path.join(os.environ["APPDATA"], "VaultKey")
+    os.makedirs(data_dir, exist_ok=True)
+    return os.path.join(data_dir, filename)
+
 def load_key():
     if not os.path.exists("key.key"):
         key = Fernet.generate_key()
