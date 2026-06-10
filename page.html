@@ -730,6 +730,49 @@
     </div>
 </div>
 
+<!-- MODALE MODIFICATION -->
+<div class="modal-overlay" id="edit-overlay">
+    <div class="modal" id="edit-box">
+        <div class="modal-header">
+            <h2 class="modal-title" id="edit-title">Modifier</h2>
+            <button class="modal-close" onclick="closeEditModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Identifiant / Email</label>
+            <input class="form-input" id="e-user" type="text" placeholder="ex : dorien@email.com" />
+        </div>
+        <div class="form-group">
+            <label class="form-label">Nouveau mot de passe</label>
+            <div class="pwd-input-wrap">
+                <input class="form-input" id="e-pwd" type="password" placeholder="Nouveau mot de passe" />
+                <div class="pwd-input-actions">
+                    <button class="pwd-input-btn" onclick="toggleEditPwdVisibility()" title="Afficher / Masquer">
+                        <i class="fa-solid fa-eye" id="edit-eye-icon"></i>
+                    </button>
+                    <button class="pwd-input-btn" onclick="generateEditPassword()" title="Générer">
+                        <i class="fa-solid fa-shuffle"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="strength-display">
+                <div class="strength-bar">
+                    <div class="strength-bar-seg" id="eseg1"></div>
+                    <div class="strength-bar-seg" id="eseg2"></div>
+                    <div class="strength-bar-seg" id="eseg3"></div>
+                    <div class="strength-bar-seg" id="eseg4"></div>
+                </div>
+                <span class="strength-text" id="edit-strength-text">En attente d'analyse…</span>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-ghost" onclick="closeEditModal()">Annuler</button>
+            <button class="btn btn-accent" onclick="confirmEdit()">Sauvegarder</button>
+        </div>
+    </div>
+</div>
+
 <script>
     /* ═══════════════════════════════════════════════════════
      *  DONNÉES
@@ -817,6 +860,9 @@ window.addEventListener('pywebviewready', loadPasswords);
                         ex : window.pywebview.api.request_edit(id)
                              → Python appelle editPassword(id) en JS
                     -->
+                    <button class="icon-btn" onclick="openEditModal('${p.site}')" title="Modifier">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </button>
                     <!--
                         BOUTON SUPPRIMER — appelle onDeleteClick(id).
                         TODO Python : onDeleteClick transmet l'id à Python
@@ -1006,6 +1052,67 @@ async function confirmDelete() {
         setStrength('');
     }
 
+    let siteToEdit = null;
+
+function openEditModal(site) {
+    siteToEdit = site;
+    const p = passwords.find(x => x.site === site);
+    document.getElementById('edit-title').textContent = 'Modifier — ' + site;
+    document.getElementById('e-user').value = p ? p.user : '';
+    document.getElementById('e-pwd').value  = '';
+    document.getElementById('e-pwd').type   = 'password';
+    document.getElementById('edit-eye-icon').className = 'fa-solid fa-eye';
+    setEditStrength('');
+    document.getElementById('edit-overlay').classList.add('open');
+}
+
+function closeEditModal() {
+    siteToEdit = null;
+    document.getElementById('edit-overlay').classList.remove('open');
+    document.getElementById('e-user').value = '';
+    document.getElementById('e-pwd').value  = '';
+    setEditStrength('');
+}
+
+async function confirmEdit() {
+    if (!siteToEdit) return;
+    const user = document.getElementById('e-user').value.trim();
+    const pwd  = document.getElementById('e-pwd').value.trim();
+    if (!user || !pwd) { showToast('Remplis tous les champs'); return; }
+
+    const result = await pywebview.api.update_account(siteToEdit, user, pwd);
+    if (result === 'account updated') {
+        closeEditModal();
+        await loadPasswords();
+        showToast('Mot de passe modifié');
+    }
+}
+
+async function generateEditPassword() {
+    const pwd = await pywebview.api.generate_password();
+    document.getElementById('e-pwd').value = pwd;
+    document.getElementById('e-pwd').type  = 'text';
+    document.getElementById('edit-eye-icon').className = 'fa-solid fa-eye-slash';
+    showToast('Mot de passe généré');
+}
+
+function toggleEditPwdVisibility() {
+    const inp  = document.getElementById('e-pwd');
+    const icon = document.getElementById('edit-eye-icon');
+    inp.type       = inp.type === 'password' ? 'text' : 'password';
+    icon.className = inp.type === 'text' ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+}
+
+function setEditStrength(level) {
+    const fill   = { weak: 1, medium: 2, strong: 4 };
+    const labels = { weak: 'Faible', medium: 'Moyen', strong: 'Fort', '': "En attente d'analyse…" };
+    const count  = fill[level] || 0;
+    ['eseg1','eseg2','eseg3','eseg4'].forEach((id, i) => {
+        document.getElementById(id).className =
+            'strength-bar-seg' + (i < count ? ' filled-' + level : '');
+    });
+    document.getElementById('edit-strength-text').textContent = labels[level] ?? "En attente d'analyse…";
+}
     document.getElementById('modal-overlay').addEventListener('click', function(e) {
         if (e.target === this) closeModal();
     });
