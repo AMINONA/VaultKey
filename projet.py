@@ -150,7 +150,7 @@ class Api:
 # ----- Création et lancement de la fenêtre interface -----
 window = webview.create_window(
     "Password Manager",
-    "page.html",
+    "index.html",
     js_api=Api()
 )
 
