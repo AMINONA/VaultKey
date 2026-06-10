@@ -880,12 +880,6 @@ async function confirmDelete() {
     showToast('Mot de passe supprimé');
 }
 
-    /* Appelé par Python après confirmation de suppression */
-    function removePassword(site) {
-        passwords = passwords.filter(p => p.site !== site);
-        renderList();
-        showToast('Entrée supprimée');
-    }
 
     /* ═══════════════════════════════════════════════════════
      *  MODIFIER (réservé Python)
@@ -922,14 +916,6 @@ async function confirmDelete() {
         showToast('Mot de passe ajouté');
     }
 }
-
-    /* Appelé par Python après ajout réussi */
-    function addPassword(entry) {
-        passwords.push(entry);
-        closeModal();
-        renderList();
-        showToast('Mot de passe ajouté');
-    }
 
     /* Appelé par Python après modification réussie */
     function updatePassword(entry) {
