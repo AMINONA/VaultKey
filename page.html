@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VaultKey — Gestionnaire de mots de passe</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         :root {
             --bg: #0d0d0f;
@@ -20,8 +29,8 @@
             --danger: #ff5c5c;
             --text: #f0ede8;
             --text-muted: #8a8882;
-            --border: rgba(255,255,255,0.07);
-            --border-hover: rgba(255,255,255,0.13);
+            --border: rgba(255, 255, 255, 0.07);
+            --border-hover: rgba(255, 255, 255, 0.13);
             --font-title: 'Syne', sans-serif;
             --font-body: 'DM Sans', sans-serif;
         }
@@ -44,7 +53,7 @@
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
-            background: rgba(13,13,15,0.92);
+            background: rgba(13, 13, 15, 0.92);
             backdrop-filter: blur(12px);
             z-index: 10;
         }
@@ -107,10 +116,19 @@
             transition: border-color 0.2s;
         }
 
-        .search-input::placeholder { color: var(--text-muted); }
-        .search-input:focus { border-color: rgba(232,255,71,0.3); }
+        .search-input::placeholder {
+            color: var(--text-muted);
+        }
 
-        .topbar-actions { display: flex; gap: 10px; margin-left: auto; }
+        .search-input:focus {
+            border-color: rgba(232, 255, 71, 0.3);
+        }
+
+        .topbar-actions {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
+        }
 
         .btn {
             display: inline-flex;
@@ -132,7 +150,11 @@
             border: 1px solid var(--border);
         }
 
-        .btn-ghost:hover { border-color: var(--border-hover); color: var(--text); background: rgba(255,255,255,0.04); }
+        .btn-ghost:hover {
+            border-color: var(--border-hover);
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.04);
+        }
 
         .btn-accent {
             background: var(--accent);
@@ -140,10 +162,15 @@
             font-weight: 600;
         }
 
-        .btn-accent:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-accent:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
 
         /* CONTENT */
-        .content { padding: 32px 40px; }
+        .content {
+            padding: 32px 40px;
+        }
 
         .content-header {
             display: flex;
@@ -159,7 +186,10 @@
             letter-spacing: -0.5px;
         }
 
-        .content-count { font-size: 13px; color: var(--text-muted); }
+        .content-count {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
 
         /* STATS */
         .stats-row {
@@ -190,13 +220,36 @@
             flex-shrink: 0;
         }
 
-        .stat-icon.total   { background: rgba(232,255,71,0.1);  color: var(--accent); }
-        .stat-icon.strong  { background: rgba(71,255,138,0.1);  color: #47ff8a; }
-        .stat-icon.medium  { background: rgba(255,170,71,0.1);  color: #ffaa47; }
-        .stat-icon.weak    { background: rgba(255,92,92,0.1);   color: var(--danger); }
+        .stat-icon.total {
+            background: rgba(232, 255, 71, 0.1);
+            color: var(--accent);
+        }
 
-        .stat-info { display: flex; flex-direction: column; gap: 2px; }
-        .stat-label { font-size: 12px; color: var(--text-muted); }
+        .stat-icon.strong {
+            background: rgba(71, 255, 138, 0.1);
+            color: #47ff8a;
+        }
+
+        .stat-icon.medium {
+            background: rgba(255, 170, 71, 0.1);
+            color: #ffaa47;
+        }
+
+        .stat-icon.weak {
+            background: rgba(255, 92, 92, 0.1);
+            color: var(--danger);
+        }
+
+        .stat-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
 
         .stat-value {
             font-family: var(--font-title);
@@ -205,12 +258,24 @@
             letter-spacing: -1px;
         }
 
-        .stat-value.green  { color: #47ff8a; }
-        .stat-value.orange { color: #ffaa47; }
-        .stat-value.red    { color: var(--danger); }
+        .stat-value.green {
+            color: #47ff8a;
+        }
+
+        .stat-value.orange {
+            color: #ffaa47;
+        }
+
+        .stat-value.red {
+            color: var(--danger);
+        }
 
         /* FILTER TABS */
-        .filter-tabs { display: flex; gap: 6px; margin-bottom: 20px; }
+        .filter-tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
 
         .filter-tab {
             display: inline-flex;
@@ -228,18 +293,27 @@
             transition: all 0.15s;
         }
 
-        .filter-tab:hover { border-color: var(--border-hover); color: var(--text); }
+        .filter-tab:hover {
+            border-color: var(--border-hover);
+            color: var(--text);
+        }
 
         .filter-tab.active {
-            background: rgba(232,255,71,0.08);
-            border-color: rgba(232,255,71,0.25);
+            background: rgba(232, 255, 71, 0.08);
+            border-color: rgba(232, 255, 71, 0.25);
             color: var(--accent);
         }
 
-        .filter-tab i { font-size: 12px; }
+        .filter-tab i {
+            font-size: 12px;
+        }
 
         /* PASSWORD LIST */
-        .pwd-list { display: flex; flex-direction: column; gap: 10px; }
+        .pwd-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
         .pwd-card {
             background: var(--bg-card);
@@ -254,10 +328,22 @@
             transition: border-color 0.2s, transform 0.2s;
         }
 
-        .pwd-card:hover { border-color: var(--border-hover); transform: translateX(3px); }
-        .pwd-card.weak   { border-left-color: var(--danger); }
-        .pwd-card.medium { border-left-color: #ffaa47; }
-        .pwd-card.strong { border-left-color: #47ff8a; }
+        .pwd-card:hover {
+            border-color: var(--border-hover);
+            transform: translateX(3px);
+        }
+
+        .pwd-card.weak {
+            border-left-color: var(--danger);
+        }
+
+        .pwd-card.medium {
+            border-left-color: #ffaa47;
+        }
+
+        .pwd-card.strong {
+            border-left-color: #47ff8a;
+        }
 
         .site-avatar {
             width: 44px;
@@ -274,7 +360,12 @@
             flex-shrink: 0;
         }
 
-        .pwd-info { display: flex; flex-direction: column; gap: 3px; overflow: hidden; }
+        .pwd-info {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            overflow: hidden;
+        }
 
         .pwd-site {
             font-weight: 500;
@@ -292,7 +383,12 @@
             text-overflow: ellipsis;
         }
 
-        .pwd-meta { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+        .pwd-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 4px;
+        }
 
         .strength-badge {
             display: inline-flex;
@@ -304,14 +400,35 @@
             border-radius: 100px;
         }
 
-        .strength-badge i { font-size: 10px; }
-        .strength-badge.weak   { background: rgba(255,92,92,0.12);  color: #ff5c5c; }
-        .strength-badge.medium { background: rgba(255,170,71,0.12); color: #ffaa47; }
-        .strength-badge.strong { background: rgba(71,255,138,0.12); color: #47ff8a; }
+        .strength-badge i {
+            font-size: 10px;
+        }
 
-        .pwd-date { font-size: 11px; color: var(--text-muted); }
+        .strength-badge.weak {
+            background: rgba(255, 92, 92, 0.12);
+            color: #ff5c5c;
+        }
 
-        .pwd-actions { display: flex; align-items: center; gap: 6px; }
+        .strength-badge.medium {
+            background: rgba(255, 170, 71, 0.12);
+            color: #ffaa47;
+        }
+
+        .strength-badge.strong {
+            background: rgba(71, 255, 138, 0.12);
+            color: #47ff8a;
+        }
+
+        .pwd-date {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .pwd-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
 
         .icon-btn {
             width: 34px;
@@ -328,22 +445,33 @@
             transition: all 0.15s;
         }
 
-        .icon-btn:hover { background: rgba(255,255,255,0.06); color: var(--text); border-color: var(--border-hover); }
-        .icon-btn.danger:hover { background: rgba(255,92,92,0.1); color: var(--danger); border-color: rgba(255,92,92,0.3); }
+        .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text);
+            border-color: var(--border-hover);
+        }
+
+        .icon-btn.danger:hover {
+            background: rgba(255, 92, 92, 0.1);
+            color: var(--danger);
+            border-color: rgba(255, 92, 92, 0.3);
+        }
 
         /* MODAL AJOUT — champs en lecture seule, remplis par Python */
         .modal-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(4px);
             z-index: 100;
             align-items: center;
             justify-content: center;
         }
 
-        .modal-overlay.open { display: flex; }
+        .modal-overlay.open {
+            display: flex;
+        }
 
         .modal {
             background: var(--bg-card);
@@ -356,8 +484,15 @@
         }
 
         @keyframes modalIn {
-            from { opacity: 0; transform: translateY(16px) scale(0.98); }
-            to   { opacity: 1; transform: translateY(0)   scale(1); }
+            from {
+                opacity: 0;
+                transform: translateY(16px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .modal-header {
@@ -389,9 +524,14 @@
             transition: all 0.15s;
         }
 
-        .modal-close:hover { background: rgba(255,255,255,0.06); color: var(--text); }
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text);
+        }
 
-        .form-group { margin-bottom: 20px; }
+        .form-group {
+            margin-bottom: 20px;
+        }
 
         .form-label {
             display: block;
@@ -414,19 +554,36 @@
             transition: border-color 0.2s;
         }
 
-        .form-input::placeholder { color: rgba(138,136,130,0.5); }
-        .form-input:focus { border-color: rgba(232,255,71,0.35); }
+        .form-input::placeholder {
+            color: rgba(138, 136, 130, 0.5);
+        }
+
+        .form-input:focus {
+            border-color: rgba(232, 255, 71, 0.35);
+        }
 
         /*
          * Champ mot de passe avec boutons afficher + générer
          * Le champ est rempli et soumis par Python.
          * Le JS ne fait qu'afficher/masquer et déclencher la génération.
          */
-        .pwd-input-wrap { position: relative; }
-        .pwd-input-wrap .form-input { padding-right: 84px; font-family: monospace; letter-spacing: 1px; }
+        .pwd-input-wrap {
+            position: relative;
+        }
 
-        #f-pwd::-ms-reveal { display: none; }
-        #e-pwd::-ms-reveal { display: none; }
+        .pwd-input-wrap .form-input {
+            padding-right: 84px;
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+
+        #f-pwd::-ms-reveal {
+            display: none;
+        }
+
+        #e-pwd::-ms-reveal {
+            display: none;
+        }
 
         .pwd-input-actions {
             position: absolute;
@@ -441,7 +598,7 @@
             width: 30px;
             height: 30px;
             border-radius: 7px;
-            background: rgba(255,255,255,0.06);
+            background: rgba(255, 255, 255, 0.06);
             border: none;
             color: var(--text-muted);
             cursor: pointer;
@@ -452,30 +609,60 @@
             transition: all 0.15s;
         }
 
-        .pwd-input-btn:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+        .pwd-input-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+        }
 
         /* STRENGTH DISPLAY — piloté uniquement par Python via setStrength() */
-        .strength-display { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+        .strength-display {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
 
-        .strength-bar { display: flex; gap: 4px; }
+        .strength-bar {
+            display: flex;
+            gap: 4px;
+        }
 
         .strength-bar-seg {
             height: 4px;
             flex: 1;
             border-radius: 2px;
-            background: rgba(255,255,255,0.08);
+            background: rgba(255, 255, 255, 0.08);
             transition: background 0.3s;
         }
 
-        .strength-bar-seg.filled-weak   { background: var(--danger); }
-        .strength-bar-seg.filled-medium { background: #ffaa47; }
-        .strength-bar-seg.filled-strong { background: #47ff8a; }
+        .strength-bar-seg.filled-weak {
+            background: var(--danger);
+        }
 
-        .strength-text { font-size: 12px; color: var(--text-muted); }
+        .strength-bar-seg.filled-medium {
+            background: #ffaa47;
+        }
 
-        .modal[data-strength="weak"]   .strength-text { color: #ff5c5c; }
-        .modal[data-strength="medium"] .strength-text { color: #ffaa47; }
-        .modal[data-strength="strong"] .strength-text { color: #47ff8a; }
+        .strength-bar-seg.filled-strong {
+            background: #47ff8a;
+        }
+
+        .strength-text {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .modal[data-strength="weak"] .strength-text {
+            color: #ff5c5c;
+        }
+
+        .modal[data-strength="medium"] .strength-text {
+            color: #ffaa47;
+        }
+
+        .modal[data-strength="strong"] .strength-text {
+            color: #47ff8a;
+        }
 
         .modal-footer {
             display: flex;
@@ -490,7 +677,7 @@
             bottom: 28px;
             right: 28px;
             background: var(--bg-card2);
-            border: 1px solid rgba(71,255,232,0.2);
+            border: 1px solid rgba(71, 255, 232, 0.2);
             border-radius: 10px;
             padding: 12px 20px;
             display: flex;
@@ -504,7 +691,10 @@
             transition: all 0.3s ease;
         }
 
-        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
 
         /* EMPTY STATE */
         .empty-state {
@@ -513,21 +703,47 @@
             color: var(--text-muted);
         }
 
-        .empty-state i { font-size: 40px; margin-bottom: 16px; display: block; opacity: 0.3; }
-        .empty-state p { font-size: 15px; }
+        .empty-state i {
+            font-size: 40px;
+            margin-bottom: 16px;
+            display: block;
+            opacity: 0.3;
+        }
+
+        .empty-state p {
+            font-size: 15px;
+        }
 
         @media (max-width: 768px) {
-            .topbar { padding: 16px 20px; }
-            .content { padding: 24px 20px; }
-            .stats-row { grid-template-columns: repeat(2, 1fr); }
-            .pwd-card { grid-template-columns: 44px 1fr; }
-            .pwd-actions { display: none; }
+            .topbar {
+                padding: 16px 20px;
+            }
+
+            .content {
+                padding: 24px 20px;
+            }
+
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .pwd-card {
+                grid-template-columns: 44px 1fr;
+            }
+
+            .pwd-actions {
+                display: none;
+            }
         }
+
         @media (max-width: 600px) {
-            span.logo-text { display: none; }
+            span.logo-text {
+                display: none;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <!-- TOPBAR -->
@@ -539,13 +755,8 @@
 
         <div class="search-wrap">
             <i class="fa-solid fa-magnifying-glass search-icon"></i>
-            <input
-                class="search-input"
-                type="text"
-                id="search-input"
-                placeholder="Rechercher un site, un identifiant…"
-                oninput="handleSearch(this.value)"
-            />
+            <input class="search-input" type="text" id="search-input" placeholder="Rechercher un site, un identifiant…"
+                oninput="handleSearch(this.value)" />
         </div>
 
         <div class="topbar-actions">
@@ -658,7 +869,8 @@
             <div class="form-group">
                 <label class="form-label">Mot de passe</label>
                 <div class="pwd-input-wrap">
-                    <input class="form-input" id="f-pwd" type="password" placeholder="Entrez ou générez un mot de passe" />
+                    <input class="form-input" id="f-pwd" type="password"
+                        placeholder="Entrez ou générez un mot de passe" />
                     <div class="pwd-input-actions">
                         <button class="pwd-input-btn" onclick="togglePwdVisibility()" title="Afficher / Masquer">
                             <i class="fa-solid fa-eye" id="eye-icon"></i>
@@ -712,128 +924,129 @@
     </div>
 
     <!-- MODALE CONFIRMATION SUPPRESSION -->
-<div class="modal-overlay" id="delete-overlay">
-    <div class="modal" style="width:400px;">
-        <div class="modal-header">
-            <h2 class="modal-title">Confirmer la suppression</h2>
-            <button class="modal-close" onclick="closeDeleteModal()">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-        <p style="color:var(--text-muted);font-size:15px;margin-bottom:8px;">
-            Tu es sur le point de supprimer le mot de passe pour :
-        </p>
-        <p style="font-weight:600;font-size:17px;margin-bottom:28px;" id="delete-site-name"></p>
-        <div class="modal-footer">
-            <button class="btn btn-ghost" onclick="closeDeleteModal()">Annuler</button>
-            <button class="btn" style="background:var(--danger);color:#fff;font-weight:600;" onclick="confirmDelete()">
-                <i class="fa-solid fa-trash-can"></i> Supprimer
-            </button>
-        </div>
-    </div>
-</div>
-
-<!-- MODALE MODIFICATION -->
-<div class="modal-overlay" id="edit-overlay">
-    <div class="modal" id="edit-box">
-        <div class="modal-header">
-            <h2 class="modal-title" id="edit-title">Modifier</h2>
-            <button class="modal-close" onclick="closeEditModal()">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-        <div class="form-group">
-            <label class="form-label">Identifiant / Email</label>
-            <input class="form-input" id="e-user" type="text" placeholder="ex : dorien@email.com" />
-        </div>
-        <div class="form-group">
-            <label class="form-label">Nouveau mot de passe</label>
-            <div class="pwd-input-wrap">
-                <input class="form-input" id="e-pwd" type="password" placeholder="Nouveau mot de passe" />
-                <div class="pwd-input-actions">
-                    <button class="pwd-input-btn" onclick="toggleEditPwdVisibility()" title="Afficher / Masquer">
-                        <i class="fa-solid fa-eye" id="edit-eye-icon"></i>
-                    </button>
-                    <button class="pwd-input-btn" onclick="generateEditPassword()" title="Générer">
-                        <i class="fa-solid fa-shuffle"></i>
-                    </button>
-                </div>
+    <div class="modal-overlay" id="delete-overlay">
+        <div class="modal" style="width:400px;">
+            <div class="modal-header">
+                <h2 class="modal-title">Confirmer la suppression</h2>
+                <button class="modal-close" onclick="closeDeleteModal()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
-            <div class="strength-display">
-                <div class="strength-bar">
-                    <div class="strength-bar-seg" id="eseg1"></div>
-                    <div class="strength-bar-seg" id="eseg2"></div>
-                    <div class="strength-bar-seg" id="eseg3"></div>
-                    <div class="strength-bar-seg" id="eseg4"></div>
-                </div>
-                <span class="strength-text" id="edit-strength-text">En attente d'analyse…</span>
+            <p style="color:var(--text-muted);font-size:15px;margin-bottom:8px;">
+                Tu es sur le point de supprimer le mot de passe pour :
+            </p>
+            <p style="font-weight:600;font-size:17px;margin-bottom:28px;" id="delete-site-name"></p>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeDeleteModal()">Annuler</button>
+                <button class="btn" style="background:var(--danger);color:#fff;font-weight:600;"
+                    onclick="confirmDelete()">
+                    <i class="fa-solid fa-trash-can"></i> Supprimer
+                </button>
             </div>
         </div>
-        <div class="modal-footer">
-            <button class="btn btn-ghost" onclick="closeEditModal()">Annuler</button>
-            <button class="btn btn-accent" onclick="confirmEdit()">Sauvegarder</button>
+    </div>
+
+    <!-- MODALE MODIFICATION -->
+    <div class="modal-overlay" id="edit-overlay">
+        <div class="modal" id="edit-box">
+            <div class="modal-header">
+                <h2 class="modal-title" id="edit-title">Modifier</h2>
+                <button class="modal-close" onclick="closeEditModal()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Identifiant / Email</label>
+                <input class="form-input" id="e-user" type="text" placeholder="ex : dorien@email.com" />
+            </div>
+            <div class="form-group">
+                <label class="form-label">Nouveau mot de passe</label>
+                <div class="pwd-input-wrap">
+                    <input class="form-input" id="e-pwd" type="password" placeholder="Nouveau mot de passe" />
+                    <div class="pwd-input-actions">
+                        <button class="pwd-input-btn" onclick="toggleEditPwdVisibility()" title="Afficher / Masquer">
+                            <i class="fa-solid fa-eye" id="edit-eye-icon"></i>
+                        </button>
+                        <button class="pwd-input-btn" onclick="generateEditPassword()" title="Générer">
+                            <i class="fa-solid fa-shuffle"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="strength-display">
+                    <div class="strength-bar">
+                        <div class="strength-bar-seg" id="eseg1"></div>
+                        <div class="strength-bar-seg" id="eseg2"></div>
+                        <div class="strength-bar-seg" id="eseg3"></div>
+                        <div class="strength-bar-seg" id="eseg4"></div>
+                    </div>
+                    <span class="strength-text" id="edit-strength-text">En attente d'analyse…</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeEditModal()">Annuler</button>
+                <button class="btn btn-accent" onclick="confirmEdit()">Sauvegarder</button>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    /* ═══════════════════════════════════════════════════════
-     *  DONNÉES
-     *  TODO Python : remplace ce tableau par un appel à ton API.
-     *  ex : const passwords = await pywebview.api.get_all()
-     *  Chaque entrée : { id, site, user, pwd, strength, date }
-     *  strength : 'weak' | 'medium' | 'strong'
-     * ═══════════════════════════════════════════════════════ */
-    let passwords = [];
+    <script>
+        /* ═══════════════════════════════════════════════════════
+         *  DONNÉES
+         *  TODO Python : remplace ce tableau par un appel à ton API.
+         *  ex : const passwords = await pywebview.api.get_all()
+         *  Chaque entrée : { id, site, user, pwd, strength, date }
+         *  strength : 'weak' | 'medium' | 'strong'
+         * ═══════════════════════════════════════════════════════ */
+        let passwords = [];
 
-    async function loadPasswords() {
-    const accounts = await pywebview.api.get_accounts();
-    passwords = Object.entries(accounts).map(([site, data]) => ({
-        site,
-        user: data.id,
-        pwd:  '••••••••',
-        strength: data.password_strength,
-        date: data.date ?? '—'
-    }));
-    renderList();
-}
+        async function loadPasswords() {
+            const accounts = await pywebview.api.get_accounts();
+            passwords = Object.entries(accounts).map(([site, data]) => ({
+                site,
+                user: data.id,
+                pwd: '••••••••',
+                strength: data.password_strength,
+                date: data.date ?? '—'
+            }));
+            renderList();
+        }
 
-window.addEventListener('pywebviewready', loadPasswords);
+        window.addEventListener('pywebviewready', loadPasswords);
 
-    let currentStrength = 'all';
-    let searchQuery     = '';
+        let currentStrength = 'all';
+        let searchQuery = '';
 
-    /* ── FILTRAGE ── */
-    function getFiltered() {
-        return passwords.filter(p => {
-            const matchStr    = currentStrength === 'all' || p.strength === currentStrength;
-            const q           = searchQuery.toLowerCase();
-            const matchSearch = !q || p.site.toLowerCase().includes(q) || p.user.toLowerCase().includes(q);
-            return matchStr && matchSearch;
-        });
-    }
+        /* ── FILTRAGE ── */
+        function getFiltered() {
+            return passwords.filter(p => {
+                const matchStr = currentStrength === 'all' || p.strength === currentStrength;
+                const q = searchQuery.toLowerCase();
+                const matchSearch = !q || p.site.toLowerCase().includes(q) || p.user.toLowerCase().includes(q);
+                return matchStr && matchSearch;
+            });
+        }
 
-    /* ── RENDU LISTE ── */
-    function renderList() {
-        const list     = document.getElementById('pwd-list');
-        const filtered = getFiltered();
-        const n        = filtered.length;
-        document.getElementById('results-count').textContent = n + ' entrée' + (n > 1 ? 's' : '');
+        /* ── RENDU LISTE ── */
+        function renderList() {
+            const list = document.getElementById('pwd-list');
+            const filtered = getFiltered();
+            const n = filtered.length;
+            document.getElementById('results-count').textContent = n + ' entrée' + (n > 1 ? 's' : '');
 
-        if (n === 0) {
-            list.innerHTML = `
+            if (n === 0) {
+                list.innerHTML = `
                 <div class="empty-state">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     <p>Aucun résultat trouvé</p>
                 </div>`;
-            updateStats();
-            return;
-        }
+                updateStats();
+                return;
+            }
 
-        const strengthLabel = { weak: 'Faible', medium: 'Moyen', strong: 'Fort' };
-        const strengthIcon  = { weak: 'fa-skull-crossbones', medium: 'fa-triangle-exclamation', strong: 'fa-shield-halved' };
+            const strengthLabel = { weak: 'Faible', medium: 'Moyen', strong: 'Fort' };
+            const strengthIcon = { weak: 'fa-skull-crossbones', medium: 'fa-triangle-exclamation', strong: 'fa-shield-halved' };
 
-        list.innerHTML = filtered.map(p => `
+            list.innerHTML = filtered.map(p => `
             <div class="pwd-card ${p.strength}" id="card-${p.id}">
                 <div class="site-avatar">${p.site[0].toUpperCase()}</div>
                 <div class="pwd-info">
@@ -879,272 +1092,272 @@ window.addEventListener('pywebviewready', loadPasswords);
             </div>
         `).join('');
 
-        updateStats();
-    }
+            updateStats();
+        }
 
-    /* ── STATS ── */
-    function updateStats() {
-        document.getElementById('stat-total').textContent  = passwords.length;
-        document.getElementById('stat-strong').textContent = passwords.filter(p => p.strength === 'strong').length;
-        document.getElementById('stat-medium').textContent = passwords.filter(p => p.strength === 'medium').length;
-        document.getElementById('stat-weak').textContent   = passwords.filter(p => p.strength === 'weak').length;
-    }
+        /* ── STATS ── */
+        function updateStats() {
+            document.getElementById('stat-total').textContent = passwords.length;
+            document.getElementById('stat-strong').textContent = passwords.filter(p => p.strength === 'strong').length;
+            document.getElementById('stat-medium').textContent = passwords.filter(p => p.strength === 'medium').length;
+            document.getElementById('stat-weak').textContent = passwords.filter(p => p.strength === 'weak').length;
+        }
 
-    /* ── COPIER / RÉVÉLER ── */
-async function copyPwd(site) {
-    const pwd = await pywebview.api.get_password(site);
-    navigator.clipboard.writeText(pwd);
-    showToast('Mot de passe copié pour ' + site);
-}
+        /* ── COPIER / RÉVÉLER ── */
+        async function copyPwd(site) {
+            const pwd = await pywebview.api.get_password(site);
+            navigator.clipboard.writeText(pwd);
+            showToast('Mot de passe copié pour ' + site);
+        }
 
-async function revealPwd(site) {
-    const pwd = await pywebview.api.get_password(site);
-    showToast(pwd);
-}
+        async function revealPwd(site) {
+            const pwd = await pywebview.api.get_password(site);
+            showToast(pwd);
+        }
 
-    /* ═══════════════════════════════════════════════════════
-     *  SUPPRIMER
-     *  onDeleteClick(id) — point d'entrée depuis le bouton HTML.
-     *  TODO Python : décommente la ligne pywebview et supprime
-     *  la ligne de fallback local quand ton API est prête.
-     * ═══════════════════════════════════════════════════════ */
-    let siteToDelete = null;
+        /* ═══════════════════════════════════════════════════════
+         *  SUPPRIMER
+         *  onDeleteClick(id) — point d'entrée depuis le bouton HTML.
+         *  TODO Python : décommente la ligne pywebview et supprime
+         *  la ligne de fallback local quand ton API est prête.
+         * ═══════════════════════════════════════════════════════ */
+        let siteToDelete = null;
 
-function onDeleteClick(site) {
-    siteToDelete = site;
-    document.getElementById('delete-site-name').textContent = site;
-    document.getElementById('delete-overlay').classList.add('open');
-}
+        function onDeleteClick(site) {
+            siteToDelete = site;
+            document.getElementById('delete-site-name').textContent = site;
+            document.getElementById('delete-overlay').classList.add('open');
+        }
 
-function closeDeleteModal() {
-    siteToDelete = null;
-    document.getElementById('delete-overlay').classList.remove('open');
-}
+        function closeDeleteModal() {
+            siteToDelete = null;
+            document.getElementById('delete-overlay').classList.remove('open');
+        }
 
-async function confirmDelete() {
-    if (!siteToDelete) return;
-    await pywebview.api.delete_account(siteToDelete);
-    closeDeleteModal();
-    await loadPasswords();
-    showToast('Mot de passe supprimé');
-}
-
-
-    /* ═══════════════════════════════════════════════════════
-     *  MODIFIER (réservé Python)
-     *  editPassword(id) — appelé depuis Python pour ouvrir
-     *  la modale pré-remplie avec les données de l'entrée.
-     *  TODO Python : window.pywebview.api.request_edit(id)
-     *    → Python déchiffre les données et appelle editPassword(id)
-     * ═══════════════════════════════════════════════════════ */
-    function editPassword(id) {
-        const p = passwords.find(x => x.id === id);
-        if (!p) return;
-        document.getElementById('f-site').value = p.site;
-        document.getElementById('f-user').value = p.user;
-        document.getElementById('f-pwd').value  = p.pwd;
-        document.getElementById('f-pwd').type   = 'password';
-        document.getElementById('eye-icon').className = 'fa-solid fa-eye';
-        setStrength(p.strength);
-        openModal();
-        // Stocke l'id en cours d'édition pour onSaveClick()
-        document.getElementById('modal-box').dataset.editId = id;
-    }
+        async function confirmDelete() {
+            if (!siteToDelete) return;
+            await pywebview.api.delete_account(siteToDelete);
+            closeDeleteModal();
+            await loadPasswords();
+            showToast('Mot de passe supprimé');
+        }
 
 
- async function onSaveClick() {
-    const data = getPwdFormData();
-    if (!data) return;
+        /* ═══════════════════════════════════════════════════════
+         *  MODIFIER (réservé Python)
+         *  editPassword(id) — appelé depuis Python pour ouvrir
+         *  la modale pré-remplie avec les données de l'entrée.
+         *  TODO Python : window.pywebview.api.request_edit(id)
+         *    → Python déchiffre les données et appelle editPassword(id)
+         * ═══════════════════════════════════════════════════════ */
+        function editPassword(id) {
+            const p = passwords.find(x => x.id === id);
+            if (!p) return;
+            document.getElementById('f-site').value = p.site;
+            document.getElementById('f-user').value = p.user;
+            document.getElementById('f-pwd').value = p.pwd;
+            document.getElementById('f-pwd').type = 'password';
+            document.getElementById('eye-icon').className = 'fa-solid fa-eye';
+            setStrength(p.strength);
+            openModal();
+            // Stocke l'id en cours d'édition pour onSaveClick()
+            document.getElementById('modal-box').dataset.editId = id;
+        }
 
-    const date = new Date().toLocaleDateString('fr-FR');
-    const result = await pywebview.api.add_account(data.site, data.user, data.pwd);
 
-    if (result === 'account added') {
-        await loadPasswords(); // recharge la liste depuis Python
-        closeModal();
-        showToast('Mot de passe ajouté');
-    }
-}
+        async function onSaveClick() {
+            const data = getPwdFormData();
+            if (!data) return;
 
-    /* Appelé par Python après modification réussie */
-    function updatePassword(entry) {
-        passwords = passwords.map(p => p.id === entry.id ? entry : p);
-        closeModal();
-        renderList();
-        showToast('Modifié avec succès');
-    }
+            const date = new Date().toLocaleDateString('fr-FR');
+            const result = await pywebview.api.add_account(data.site, data.user, data.pwd);
 
-    /* ═══════════════════════════════════════════════════════
-     *  getPwdFormData()
-     *  Renvoie { site, user, pwd } depuis le formulaire.
-     *  Utile pour Python : window.pywebview.api peut appeler
-     *  getPwdFormData() pour lire les champs saisis.
-     * ═══════════════════════════════════════════════════════ */
-    function getPwdFormData() {
-        const site = document.getElementById('f-site').value.trim();
-        const user = document.getElementById('f-user').value.trim();
-        const pwd  = document.getElementById('f-pwd').value.trim();
-        if (!site || !user || !pwd) { showToast('Remplis tous les champs'); return null; }
-        return { site, user, pwd };
-    }
+            if (result === 'account added') {
+                await loadPasswords(); // recharge la liste depuis Python
+                closeModal();
+                showToast('Mot de passe ajouté');
+            }
+        }
 
-    /* ═══════════════════════════════════════════════════════
-     *  setField(fieldId, value)
-     *  Permet à Python de remplir un champ du formulaire.
-     *  ex : window.pywebview.api → JS : setField('f-pwd', generatedPwd)
-     * ═══════════════════════════════════════════════════════ */
-    function setField(fieldId, value) {
-        const el = document.getElementById(fieldId);
-        if (el) el.value = value;
-    }
+        /* Appelé par Python après modification réussie */
+        function updatePassword(entry) {
+            passwords = passwords.map(p => p.id === entry.id ? entry : p);
+            closeModal();
+            renderList();
+            showToast('Modifié avec succès');
+        }
 
-    /* ═══════════════════════════════════════════════════════
-     *  setStrength(level)
-     *  Appelé par Python pour mettre à jour la barre de force.
-     *  level : 'weak' | 'medium' | 'strong' | ''
-     * ═══════════════════════════════════════════════════════ */
-    function setStrength(level) {
-        const fill   = { weak: 1, medium: 2, strong: 4 };
-        const labels = { weak: 'Faible', medium: 'Moyen', strong: 'Fort', '': "En attente d'analyse…" };
-        const count  = fill[level] || 0;
-        ['seg1','seg2','seg3','seg4'].forEach((id, i) => {
-            document.getElementById(id).className =
-                'strength-bar-seg' + (i < count ? ' filled-' + level : '');
+        /* ═══════════════════════════════════════════════════════
+         *  getPwdFormData()
+         *  Renvoie { site, user, pwd } depuis le formulaire.
+         *  Utile pour Python : window.pywebview.api peut appeler
+         *  getPwdFormData() pour lire les champs saisis.
+         * ═══════════════════════════════════════════════════════ */
+        function getPwdFormData() {
+            const site = document.getElementById('f-site').value.trim();
+            const user = document.getElementById('f-user').value.trim();
+            const pwd = document.getElementById('f-pwd').value.trim();
+            if (!site || !user || !pwd) { showToast('Remplis tous les champs'); return null; }
+            return { site, user, pwd };
+        }
+
+        /* ═══════════════════════════════════════════════════════
+         *  setField(fieldId, value)
+         *  Permet à Python de remplir un champ du formulaire.
+         *  ex : window.pywebview.api → JS : setField('f-pwd', generatedPwd)
+         * ═══════════════════════════════════════════════════════ */
+        function setField(fieldId, value) {
+            const el = document.getElementById(fieldId);
+            if (el) el.value = value;
+        }
+
+        /* ═══════════════════════════════════════════════════════
+         *  setStrength(level)
+         *  Appelé par Python pour mettre à jour la barre de force.
+         *  level : 'weak' | 'medium' | 'strong' | ''
+         * ═══════════════════════════════════════════════════════ */
+        function setStrength(level) {
+            const fill = { weak: 1, medium: 2, strong: 4 };
+            const labels = { weak: 'Faible', medium: 'Moyen', strong: 'Fort', '': "En attente d'analyse…" };
+            const count = fill[level] || 0;
+            ['seg1', 'seg2', 'seg3', 'seg4'].forEach((id, i) => {
+                document.getElementById(id).className =
+                    'strength-bar-seg' + (i < count ? ' filled-' + level : '');
+            });
+            document.getElementById('strength-text').textContent = labels[level] ?? "En attente d'analyse…";
+            document.getElementById('modal-box').dataset.strength = level;
+        }
+
+        /* ═══════════════════════════════════════════════════════
+         *  generatePassword()
+         *  Notifie Python pour qu'il génère un mot de passe fort.
+         *  TODO Python : décommente la ligne pywebview.
+         *  Python génère le mot de passe, appelle setField('f-pwd', pwd)
+         *  puis setStrength('strong').
+         * ═══════════════════════════════════════════════════════ */
+        async function generatePassword() {
+            const pwd = await pywebview.api.generate_password();
+            setField('f-pwd', pwd);
+            document.getElementById('f-pwd').type = 'text';
+            document.getElementById('eye-icon').className = 'fa-solid fa-eye-slash';
+            showToast('Mot de passe généré');
+        }
+
+        /* ── AFFICHER / MASQUER MOT DE PASSE ── */
+        function togglePwdVisibility() {
+            const inp = document.getElementById('f-pwd');
+            const icon = document.getElementById('eye-icon');
+            inp.type = inp.type === 'password' ? 'text' : 'password';
+            icon.className = inp.type === 'text' ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+        }
+
+        /* ── MODAL ── */
+        function openModal() {
+            document.getElementById('modal-overlay').classList.add('open');
+        }
+
+        function closeModal() {
+            document.getElementById('modal-overlay').classList.remove('open');
+            // Réinitialise les champs et l'id d'édition
+            document.getElementById('f-site').value = '';
+            document.getElementById('f-user').value = '';
+            document.getElementById('f-pwd').value = '';
+            document.getElementById('f-pwd').type = 'password';
+            document.getElementById('eye-icon').className = 'fa-solid fa-eye';
+            delete document.getElementById('modal-box').dataset.editId;
+            setStrength('');
+        }
+
+        let siteToEdit = null;
+
+        function openEditModal(site) {
+            siteToEdit = site;
+            const p = passwords.find(x => x.site === site);
+            document.getElementById('edit-title').textContent = 'Modifier — ' + site;
+            document.getElementById('e-user').value = p ? p.user : '';
+            document.getElementById('e-pwd').value = '';
+            document.getElementById('e-pwd').type = 'password';
+            document.getElementById('edit-eye-icon').className = 'fa-solid fa-eye';
+            setEditStrength('');
+            document.getElementById('edit-overlay').classList.add('open');
+        }
+
+        function closeEditModal() {
+            siteToEdit = null;
+            document.getElementById('edit-overlay').classList.remove('open');
+            document.getElementById('e-user').value = '';
+            document.getElementById('e-pwd').value = '';
+            setEditStrength('');
+        }
+
+        async function confirmEdit() {
+            if (!siteToEdit) return;
+            const user = document.getElementById('e-user').value.trim();
+            const pwd = document.getElementById('e-pwd').value.trim();
+            if (!user || !pwd) { showToast('Remplis tous les champs'); return; }
+
+            const result = await pywebview.api.update_account(siteToEdit, user, pwd);
+            if (result === 'account updated') {
+                closeEditModal();
+                await loadPasswords();
+                showToast('Mot de passe modifié');
+            }
+        }
+
+        async function generateEditPassword() {
+            const pwd = await pywebview.api.generate_password();
+            document.getElementById('e-pwd').value = pwd;
+            document.getElementById('e-pwd').type = 'text';
+            document.getElementById('edit-eye-icon').className = 'fa-solid fa-eye-slash';
+            showToast('Mot de passe généré');
+        }
+
+        function toggleEditPwdVisibility() {
+            const inp = document.getElementById('e-pwd');
+            const icon = document.getElementById('edit-eye-icon');
+            inp.type = inp.type === 'password' ? 'text' : 'password';
+            icon.className = inp.type === 'text' ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
+        }
+
+        function setEditStrength(level) {
+            const fill = { weak: 1, medium: 2, strong: 4 };
+            const labels = { weak: 'Faible', medium: 'Moyen', strong: 'Fort', '': "En attente d'analyse…" };
+            const count = fill[level] || 0;
+            ['eseg1', 'eseg2', 'eseg3', 'eseg4'].forEach((id, i) => {
+                document.getElementById(id).className =
+                    'strength-bar-seg' + (i < count ? ' filled-' + level : '');
+            });
+            document.getElementById('edit-strength-text').textContent = labels[level] ?? "En attente d'analyse…";
+        }
+        document.getElementById('modal-overlay').addEventListener('click', function (e) {
+            if (e.target === this) closeModal();
         });
-        document.getElementById('strength-text').textContent  = labels[level] ?? "En attente d'analyse…";
-        document.getElementById('modal-box').dataset.strength = level;
-    }
 
-    /* ═══════════════════════════════════════════════════════
-     *  generatePassword()
-     *  Notifie Python pour qu'il génère un mot de passe fort.
-     *  TODO Python : décommente la ligne pywebview.
-     *  Python génère le mot de passe, appelle setField('f-pwd', pwd)
-     *  puis setStrength('strong').
-     * ═══════════════════════════════════════════════════════ */
-   async function generatePassword() {
-    const pwd = await pywebview.api.generate_password();
-    setField('f-pwd', pwd);
-    document.getElementById('f-pwd').type = 'text';
-    document.getElementById('eye-icon').className = 'fa-solid fa-eye-slash';
-    showToast('Mot de passe généré');
-}
+        /* ── FILTRES ── */
+        function setTab(el, strength) {
+            document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            currentStrength = strength;
+            renderList();
+        }
 
-    /* ── AFFICHER / MASQUER MOT DE PASSE ── */
-    function togglePwdVisibility() {
-        const inp  = document.getElementById('f-pwd');
-        const icon = document.getElementById('eye-icon');
-        inp.type       = inp.type === 'password' ? 'text' : 'password';
-        icon.className = inp.type === 'text' ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
-    }
+        function handleSearch(val) {
+            searchQuery = val;
+            renderList();
+        }
 
-    /* ── MODAL ── */
-    function openModal() {
-        document.getElementById('modal-overlay').classList.add('open');
-    }
+        /* ── TOAST ── */
+        let toastTimeout;
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = msg;
+            toast.classList.add('show');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
+        }
 
-    function closeModal() {
-        document.getElementById('modal-overlay').classList.remove('open');
-        // Réinitialise les champs et l'id d'édition
-        document.getElementById('f-site').value = '';
-        document.getElementById('f-user').value = '';
-        document.getElementById('f-pwd').value  = '';
-        document.getElementById('f-pwd').type   = 'password';
-        document.getElementById('eye-icon').className = 'fa-solid fa-eye';
-        delete document.getElementById('modal-box').dataset.editId;
-        setStrength('');
-    }
-
-    let siteToEdit = null;
-
-function openEditModal(site) {
-    siteToEdit = site;
-    const p = passwords.find(x => x.site === site);
-    document.getElementById('edit-title').textContent = 'Modifier — ' + site;
-    document.getElementById('e-user').value = p ? p.user : '';
-    document.getElementById('e-pwd').value  = '';
-    document.getElementById('e-pwd').type   = 'password';
-    document.getElementById('edit-eye-icon').className = 'fa-solid fa-eye';
-    setEditStrength('');
-    document.getElementById('edit-overlay').classList.add('open');
-}
-
-function closeEditModal() {
-    siteToEdit = null;
-    document.getElementById('edit-overlay').classList.remove('open');
-    document.getElementById('e-user').value = '';
-    document.getElementById('e-pwd').value  = '';
-    setEditStrength('');
-}
-
-async function confirmEdit() {
-    if (!siteToEdit) return;
-    const user = document.getElementById('e-user').value.trim();
-    const pwd  = document.getElementById('e-pwd').value.trim();
-    if (!user || !pwd) { showToast('Remplis tous les champs'); return; }
-
-    const result = await pywebview.api.update_account(siteToEdit, user, pwd);
-    if (result === 'account updated') {
-        closeEditModal();
-        await loadPasswords();
-        showToast('Mot de passe modifié');
-    }
-}
-
-async function generateEditPassword() {
-    const pwd = await pywebview.api.generate_password();
-    document.getElementById('e-pwd').value = pwd;
-    document.getElementById('e-pwd').type  = 'text';
-    document.getElementById('edit-eye-icon').className = 'fa-solid fa-eye-slash';
-    showToast('Mot de passe généré');
-}
-
-function toggleEditPwdVisibility() {
-    const inp  = document.getElementById('e-pwd');
-    const icon = document.getElementById('edit-eye-icon');
-    inp.type       = inp.type === 'password' ? 'text' : 'password';
-    icon.className = inp.type === 'text' ? 'fa-solid fa-eye-slash' : 'fa-solid fa-eye';
-}
-
-function setEditStrength(level) {
-    const fill   = { weak: 1, medium: 2, strong: 4 };
-    const labels = { weak: 'Faible', medium: 'Moyen', strong: 'Fort', '': "En attente d'analyse…" };
-    const count  = fill[level] || 0;
-    ['eseg1','eseg2','eseg3','eseg4'].forEach((id, i) => {
-        document.getElementById(id).className =
-            'strength-bar-seg' + (i < count ? ' filled-' + level : '');
-    });
-    document.getElementById('edit-strength-text').textContent = labels[level] ?? "En attente d'analyse…";
-}
-    document.getElementById('modal-overlay').addEventListener('click', function(e) {
-        if (e.target === this) closeModal();
-    });
-
-    /* ── FILTRES ── */
-    function setTab(el, strength) {
-        document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-        el.classList.add('active');
-        currentStrength = strength;
         renderList();
-    }
-
-    function handleSearch(val) {
-        searchQuery = val;
-        renderList();
-    }
-
-    /* ── TOAST ── */
-    let toastTimeout;
-    function showToast(msg) {
-        const toast = document.getElementById('toast');
-        document.getElementById('toast-msg').textContent = msg;
-        toast.classList.add('show');
-        clearTimeout(toastTimeout);
-        toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
-    }
-
-    renderList();
-</script>
+    </script>
 
 
 </body>

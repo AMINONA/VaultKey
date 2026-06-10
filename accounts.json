@@ -1,10 +1,10 @@
 {
     "Test61": {
         "id": "doedidi",
-        "password": "gAAAAABqKUpE7G4wPCtAAV0ktTN_BHM5TUCZA0cs94rE5GiJksMUzeySlLsRfNq80Oc-nrIyQuzMSAeNOajEoBRoLZksKG3uWg==",
-        "password_strength": "medium",
-        "password_len": 8,
-        "date": "10/06/2026 \u00e0 13h04"
+        "password": "gAAAAABqKVV7P-ToyNQQ3Y8HZaI7Oo_MooD89vUluyY6fEBHXL96T2DnPoEKa_R2tBn22DcFICJOOq1vO9KmhgWkIV3LrwwGKQ==",
+        "password_strength": "weak",
+        "password_len": 1,
+        "date": "10/06/2026 \u00e0 14h55"
     },
     "Test62": {
         "id": "Doedido",
