@@ -19,5 +19,12 @@
         "password_strength": "strong",
         "password_len": 20,
         "date": "09/06/2026 \u00e0 22h46"
+    },
+    "Test64": {
+        "id": "doedicurus76",
+        "password": "gAAAAABqKR_AakChkKkoIC-q3EUnZMmLTbSJT9bbMW5UwYDoAp2wJZpgYXKBvdFKGX7y6mJ2nXi_fRvh5K5FfyONrPsGtVVKDc5DGMvcm8c7pRwsnZrdWsw=",
+        "password_strength": "medium",
+        "password_len": 20,
+        "date": "10/06/2026 \u00e0 10h40"
     }
 }

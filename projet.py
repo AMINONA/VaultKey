@@ -92,7 +92,10 @@ def get_password (site):
 
 def generate_password():
     chars = string.ascii_letters + string.digits + string.punctuation
-    return ''.join(secrets.choice(chars) for _ in range(20))
+    password="0"
+    while password_stats(password)[0] != "strong":
+        password = ''.join(secrets.choice(chars) for _ in range(20))
+    return password
 
 def delete_account(site):
     accounts = get_accounts()
