@@ -8,9 +8,11 @@ import string
 import time
 import shutil
 import requests
-import tempfile
 import subprocess
 from urllib.request import urlopen
+import tkinter as tk
+from tkinter import simpledialog
+import hashlib
 
 VERSION = "0.0.1"
 
@@ -211,6 +213,39 @@ def update_app():
 
     os._exit(0)
 
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
+def master_password_exists():
+    return os.path.exists(get_path("master_password.txt"))
+
+def set_master_password(password):
+    with open(get_path("master_password.txt"), "w") as file:
+        file.write(hash_password(password))
+
+def verify_master_password(password):
+    try:
+        with open(get_path("master_password.txt"), "r") as file:
+            saved_hash = file.read()
+
+        return saved_hash == hash_password(password)
+
+    except FileNotFoundError:
+        return False
+
+def ask_master_password():
+    root = tk.Tk()
+    root.withdraw()  # cache la fenêtre principale
+
+    password = simpledialog.askstring(
+        "VaultKey",
+        "Entrez le mot de passe maître :",
+        show="*"
+    )
+
+    root.destroy()
+    return password
+
 # ----- Fonctions exposés au JS -----
 class Api:
     def get_accounts(self):
@@ -231,6 +266,8 @@ class Api:
         return delete_data()
     def update_app(self):
         return update_app()
+    def check_update(self):
+        return check_update()
 
 # ----- Création et lancement de la fenêtre interface -----
 window = webview.create_window(
@@ -238,7 +275,22 @@ window = webview.create_window(
     resource_path("index.html"),
     js_api=Api()
 )
-print("cwd =", os.getcwd())
-print("index =", resource_path("index.html"))
+
 check_update()
+
+if not master_password_exists():
+    password = ask_master_password()
+
+    if password:
+        set_master_password(password)
+    else:
+        sys.exit()
+
+else:
+    password = ask_master_password()
+
+    if not verify_master_password(password):
+        print("Mot de passe incorrect")
+        sys.exit()
+
 webview.start()
