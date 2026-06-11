@@ -15,7 +15,7 @@ from tkinter import simpledialog
 import hashlib
 
 APP_DIR = os.path.dirname(sys.executable if getattr(sys, "frozen", False) else os.path.abspath(__file__))
-VERSION = "0.7.0"
+VERSION = "1.0.0"
 
 # ----- Definition des fonctions -----
 def get_path(filename):
