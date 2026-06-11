@@ -12,7 +12,7 @@ import tempfile
 import subprocess
 from urllib.request import urlopen
 
-VERSION = "0.1.0"
+VERSION = "0.0.1"
 
 # ----- Definition des fonctions -----
 def get_path(filename):
@@ -165,7 +165,7 @@ def delete_data():
 def check_update():
     try:
         with urlopen(
-            "https://github.com/AMINONA/VaultKey/releases/latest"
+            "https://api.github.com/repos/AMINONA/VaultKey/releases/latest"
         ) as response:
             data = json.load(response)
 
