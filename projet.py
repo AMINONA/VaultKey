@@ -269,6 +269,8 @@ class Api:
     def check_update(self):
         return check_update()
 
+    def get_version(self):
+        return VERSION
 # ----- Création et lancement de la fenêtre interface -----
 window = webview.create_window(
     "Password Manager",

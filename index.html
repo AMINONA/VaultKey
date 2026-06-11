@@ -1022,10 +1022,11 @@
     </div>
 
     <!-- BOUTON MISE À JOUR FIXE -->
-<button class="btn-update-fixed" onclick="openUpdateModal()">
+<button id="btn-update-fixed" class="btn-update-fixed" onclick="openUpdateModal()" style="display:none;">
     <i class="fa-solid fa-rotate"></i>
     Mise à jour
 </button>
+<span id="app-version" style="position:fixed;bottom:14px;left:28px;font-size:11px;color:var(--text-muted);">v—</span>
 
 <!-- MODALE CONFIRMATION MISE À JOUR -->
 <div class="modal-overlay" id="update-overlay">
@@ -1088,6 +1089,12 @@
                 date: data.date ?? '—'
             }));
             renderList();
+            // Affiche la version
+            const version = await pywebview.api.get_version();
+            document.getElementById('app-version').textContent = 'v' + version;
+            const hasUpdate = await pywebview.api.check_update();
+            document.getElementById('btn-update-fixed').style.display = hasUpdate ? 'inline-flex' : 'none';
+            document.getElementById('app-version').style.display = hasUpdate ? 'block' : 'none';
         }
 
         window.addEventListener('pywebviewready', loadPasswords);
