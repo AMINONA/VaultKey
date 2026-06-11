@@ -14,7 +14,7 @@ import tkinter as tk
 from tkinter import simpledialog
 import hashlib
 
-VERSION = "0.0.1"
+VERSION = "0.2.0"
 
 # ----- Definition des fonctions -----
 def get_path(filename):
@@ -193,18 +193,22 @@ def check_update():
 
 def update_app():
     bat = """
-        @echo off
+@echo off
 
-        timeout /t 2 > nul
+echo suppression...
+timeout /t 2 > nul
 
-        del VaultKey.exe
+del VaultKey.exe
 
-        ren VaultKey_new.exe VaultKey.exe
+echo renommage...
+ren VaultKey_new.exe VaultKey.exe
 
-        start "" VaultKey.exe
+echo lancement...
+start "" VaultKey.exe
 
-        del "%~f0"
-    """
+pause
+del "%~f0"
+"""
 
     with open("update.bat", "w") as file:
         file.write(bat)
@@ -278,7 +282,7 @@ window = webview.create_window(
     js_api=Api()
 )
 
-check_update()
+# check_update()
 
 if not master_password_exists():
     password = ask_master_password()
@@ -295,4 +299,5 @@ else:
         print("Mot de passe incorrect")
         sys.exit()
 
-webview.start()
+# webview.start()
+update_app()
