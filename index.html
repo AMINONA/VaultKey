@@ -1026,6 +1026,7 @@
     <i class="fa-solid fa-rotate"></i>
     Mise à jour
 </button>
+<span id="app-version" style="position:fixed;bottom:14px;left:28px;font-size:11px;color:var(--text-muted);">v—</span>
 
 <!-- MODALE CONFIRMATION MISE À JOUR -->
 <div class="modal-overlay" id="update-overlay">
@@ -1088,6 +1089,9 @@
                 date: data.date ?? '—'
             }));
             renderList();
+            // Affiche la version
+    const version = await pywebview.api.get_version();
+    document.getElementById('app-version').textContent = 'v' + version;
         }
 
         window.addEventListener('pywebviewready', loadPasswords);
