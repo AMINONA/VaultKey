@@ -224,7 +224,7 @@ def update_app():
     with open(bat_path, "w", encoding="utf-8") as file:
         print("BAT créé :", os.path.exists(bat_path))
         file.write(bat)
-    input("Appuie sur Entrée pour lancer le batch...")
+
     subprocess.Popen(
         ["cmd", "/c", bat_path],
         cwd=APP_DIR
