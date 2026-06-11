@@ -165,13 +165,14 @@ def delete_data():
 def check_update():
     try:
         with urlopen(
-            "https://api.github.com/repos/TON_COMPTE/VaultKey/releases/latest"
+            "https://github.com/AMINONA/VaultKey/releases/latest"
         ) as response:
             data = json.load(response)
 
         latest_version = data["tag_name"].replace("v", "")
 
         if latest_version == VERSION:
+            print("à jour")
             return False
 
         download_url = data["assets"][0]["browser_download_url"]
@@ -238,4 +239,5 @@ window = webview.create_window(
     js_api=Api()
 )
 
+check_update()
 webview.start()
