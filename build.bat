@@ -1,3 +1,12 @@
-py -m PyInstaller --onefile --windowed --name "VaultKey" --add-data "index.html;." projet.py
-REM py -m PyInstaller --onefile --windowed --icon=icon.ico --add-data "index.html;." projet.py
+@echo off
+
+py -3.13 -m PyInstaller ^
+ --onefile ^
+ --windowed ^
+ --name "VaultKey" ^
+ --collect-all cryptography ^
+ --collect-all tkinter ^
+ --add-data "index.html;." ^
+ projet.py
+
 pause

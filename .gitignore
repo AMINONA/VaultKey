@@ -3,3 +3,6 @@ key.key
 dist/
 build/
 VaultKey.spec
+VaultKey.exe
+VaultKey_new.exe
+update.bat

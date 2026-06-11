@@ -14,7 +14,8 @@ import tkinter as tk
 from tkinter import simpledialog
 import hashlib
 
-VERSION = "0.2.0"
+APP_DIR = os.path.dirname(sys.executable if getattr(sys, "frozen", False) else os.path.abspath(__file__))
+VERSION = "0.7.0"
 
 # ----- Definition des fonctions -----
 def get_path(filename):
@@ -192,28 +193,42 @@ def check_update():
         return False
 
 def update_app():
-    bat = """
-@echo off
+    print("APP_DIR =", APP_DIR)
 
-echo suppression...
-timeout /t 2 > nul
+    bat_path = os.path.join(APP_DIR, "update.bat")
 
-del VaultKey.exe
+    print("BAT PATH =", bat_path)
+    bat_path = os.path.join(APP_DIR, "update.bat")
 
-echo renommage...
-ren VaultKey_new.exe VaultKey.exe
+    bat = f"""@echo off
 
-echo lancement...
-start "" VaultKey.exe
+        timeout /t 3 /nobreak >nul
 
-pause
-del "%~f0"
-"""
+        taskkill /f /im VaultKey.exe >nul 2>&1
 
-    with open("update.bat", "w") as file:
+        timeout /t 2 /nobreak >nul
+
+        del /f /q "{APP_DIR}\\VaultKey.exe"
+
+        timeout /t 1 /nobreak >nul
+
+        ren "{APP_DIR}\\VaultKey_new.exe" VaultKey.exe
+
+        timeout /t 1 /nobreak >nul
+
+        start "" "{APP_DIR}\\VaultKey.exe"
+
+        del "%~f0"
+    """
+    
+    with open(bat_path, "w", encoding="utf-8") as file:
+        print("BAT créé :", os.path.exists(bat_path))
         file.write(bat)
-
-    subprocess.Popen("update.bat", shell=True)
+    input("Appuie sur Entrée pour lancer le batch...")
+    subprocess.Popen(
+        ["cmd", "/c", bat_path],
+        cwd=APP_DIR
+    )
 
     os._exit(0)
 
