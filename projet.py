@@ -300,4 +300,3 @@ else:
         sys.exit()
 
 webview.start()
-update_app()
