@@ -783,11 +783,6 @@
         </div>
 
         <div class="topbar-actions">
-            <!--
-                BOUTON AJOUT — déclenche openModal().
-                TODO Python : tu peux aussi appeler openModal() directement
-                depuis ton webview pour ouvrir la fenêtre d'ajout.
-            -->
             <button class="btn btn-accent" onclick="openModal()">
                 <i class="fa-solid fa-plus"></i>
                 Nouveau mot de passe
@@ -1125,22 +1120,11 @@
                     <button class="icon-btn" onclick="revealPwd('${p.site}')" title="Afficher le mot de passe">
                         <i class="fa-regular fa-eye"></i>
                     </button>
-                    <!--
-                        BOUTON MODIFIER — retiré de l'interface.
-                        TODO Python : appelle editPassword(id) depuis Python
-                        pour pré-remplir la modale et modifier une entrée.
-                        ex : window.pywebview.api.request_edit(id)
-                             → Python appelle editPassword(id) en JS
-                    -->
+                    <!-- BOUTON MODIFIER — retiré de l'interface.-->
                     <button class="icon-btn" onclick="openEditModal('${p.site}')" title="Modifier">
                         <i class="fa-regular fa-pen-to-square"></i>
                     </button>
-                    <!--
-                        BOUTON SUPPRIMER — appelle onDeleteClick(id).
-                        TODO Python : onDeleteClick transmet l'id à Python
-                        via window.pywebview.api.delete_password(id).
-                        Python supprime l'entrée et appelle removePassword(id).
-                    -->
+                    <!--BOUTON SUPPRIMER — appelle onDeleteClick(id). -->
                     <button class="icon-btn danger" onclick="onDeleteClick('${p.site}')" title="Supprimer">
                         <i class="fa-regular fa-trash-can"></i>
                     </button>
