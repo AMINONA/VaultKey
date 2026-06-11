@@ -1090,11 +1090,13 @@
             }));
             renderList();
             // Affiche la version
-            const version = await pywebview.api.get_version();
-            document.getElementById('app-version').textContent = 'v' + version;
-            const hasUpdate = await pywebview.api.check_update();
-            document.getElementById('btn-update-fixed').style.display = hasUpdate ? 'inline-flex' : 'none';
-            document.getElementById('app-version').style.display = hasUpdate ? 'block' : 'none';
+const version = await pywebview.api.get_version();
+document.getElementById('app-version').textContent = 'v' + version;
+document.getElementById('app-version').style.display = 'block';
+
+// Affiche le bouton MAJ seulement si une update est disponible
+const hasUpdate = await pywebview.api.check_update();
+document.getElementById('btn-update-fixed').style.display = hasUpdate ? 'inline-flex' : 'none';
         }
 
         window.addEventListener('pywebviewready', loadPasswords);
