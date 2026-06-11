@@ -14,7 +14,7 @@ import tkinter as tk
 from tkinter import simpledialog
 import hashlib
 
-VERSION = "0.6.0"
+VERSION = "0.7.0"
 
 # ----- Definition des fonctions -----
 def get_path(filename):
