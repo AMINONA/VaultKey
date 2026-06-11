@@ -282,7 +282,7 @@ window = webview.create_window(
     js_api=Api()
 )
 
-# check_update()
+check_update()
 
 if not master_password_exists():
     password = ask_master_password()
@@ -299,5 +299,5 @@ else:
         print("Mot de passe incorrect")
         sys.exit()
 
-# webview.start()
+webview.start()
 update_app()
