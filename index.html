@@ -309,31 +309,31 @@
         }
 
         /* BOUTON MISE À JOUR FIXE */
-.btn-update-fixed {
-    position: fixed;
-    bottom: 28px;
-    left: 28px;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    z-index: 50;
-    border-radius: 12px;
-    padding: 10px 18px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: var(--font-body);
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.15s;
-}
+        .btn-update-fixed {
+            position: fixed;
+            bottom: 28px;
+            left: 28px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            z-index: 50;
+            border-radius: 12px;
+            padding: 10px 18px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
 
-.btn-update-fixed:hover {
-    border-color: var(--border-hover);
-    color: var(--text);
-    background: var(--bg-card2);
-}
+        .btn-update-fixed:hover {
+            border-color: var(--border-hover);
+            color: var(--text);
+            background: var(--bg-card2);
+        }
 
         /* PASSWORD LIST */
         .pwd-list {
@@ -484,7 +484,7 @@
             border-color: rgba(255, 92, 92, 0.3);
         }
 
-        /* MODAL AJOUT — champs en lecture seule, remplis par Python */
+        /* MODAL AJOUT */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -589,11 +589,7 @@
             border-color: rgba(232, 255, 71, 0.35);
         }
 
-        /*
-         * Champ mot de passe avec boutons afficher + générer
-         * Le champ est rempli et soumis par Python.
-         * Le JS ne fait qu'afficher/masquer et déclencher la génération.
-         */
+
         .pwd-input-wrap {
             position: relative;
         }
@@ -641,7 +637,7 @@
             color: var(--text);
         }
 
-        /* STRENGTH DISPLAY — piloté uniquement par Python via setStrength() */
+        /* STRENGTH DISPLAY */
         .strength-display {
             margin-top: 12px;
             display: flex;
@@ -787,11 +783,6 @@
         </div>
 
         <div class="topbar-actions">
-            <!--
-                BOUTON AJOUT — déclenche openModal().
-                TODO Python : tu peux aussi appeler openModal() directement
-                depuis ton webview pour ouvrir la fenêtre d'ajout.
-            -->
             <button class="btn btn-accent" onclick="openModal()">
                 <i class="fa-solid fa-plus"></i>
                 Nouveau mot de passe
@@ -841,41 +832,33 @@
         </div>
 
         <!-- FILTER TABS + BOUTON SUPPRIMER DONNÉES -->
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-    <div class="filter-tabs" style="margin-bottom:0;">
-        <button class="filter-tab active" onclick="setTab(this,'all')">
-            <i class="fa-solid fa-list"></i> Tous
-        </button>
-        <button class="filter-tab" onclick="setTab(this,'strong')">
-            <i class="fa-solid fa-shield-halved"></i> Forts
-        </button>
-        <button class="filter-tab" onclick="setTab(this,'medium')">
-            <i class="fa-solid fa-triangle-exclamation"></i> Moyens
-        </button>
-        <button class="filter-tab" onclick="setTab(this,'weak')">
-            <i class="fa-solid fa-skull-crossbones"></i> Faibles
-        </button>
-    </div>
-    <button class="btn" style="background:transparent;border:1px solid rgba(255,92,92,0.3);color:var(--danger);font-size:13px;padding:7px 16px;border-radius:100px;" onclick="openDeleteDataModal()">
-        <i class="fa-solid fa-trash-can"></i> Supprimer les données
-    </button>
-</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+            <div class="filter-tabs" style="margin-bottom:0;">
+                <button class="filter-tab active" onclick="setTab(this,'all')">
+                    <i class="fa-solid fa-list"></i> Tous
+                </button>
+                <button class="filter-tab" onclick="setTab(this,'strong')">
+                    <i class="fa-solid fa-shield-halved"></i> Forts
+                </button>
+                <button class="filter-tab" onclick="setTab(this,'medium')">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Moyens
+                </button>
+                <button class="filter-tab" onclick="setTab(this,'weak')">
+                    <i class="fa-solid fa-skull-crossbones"></i> Faibles
+                </button>
+            </div>
+            <button class="btn"
+                style="background:transparent;border:1px solid rgba(255,92,92,0.3);color:var(--danger);font-size:13px;padding:7px 16px;border-radius:100px;"
+                onclick="openDeleteDataModal()">
+                <i class="fa-solid fa-trash-can"></i> Supprimer les données
+            </button>
+        </div>
 
         <!-- PASSWORD LIST -->
         <div class="pwd-list" id="pwd-list"></div>
 
     </div>
 
-    <!-- ─────────────────────────────────────────
-         MODAL AJOUT
-         Les champs site / user / pwd sont remplis
-         et soumis par Python via les fonctions :
-           • openModal()         → ouvre la fenêtre
-           • closeModal()        → ferme la fenêtre
-           • setStrength(level)  → met à jour la barre de force
-           • getPwdFormData()    → récupère {site, user, pwd}
-           • addPassword(entry)  → ajoute une entrée depuis Python
-         ───────────────────────────────────────── -->
     <div class="modal-overlay" id="modal-overlay">
         <div class="modal" id="modal-box">
             <div class="modal-header">
@@ -885,19 +868,19 @@
                 </button>
             </div>
 
-            <!-- Nom du site — saisi par l'utilisateur, transmis à Python -->
+            <!-- Nom du site -->
             <div class="form-group">
                 <label class="form-label">Nom du site</label>
                 <input class="form-input" id="f-site" type="text" placeholder="ex : GitHub, Netflix…" />
             </div>
 
-            <!-- Identifiant — saisi par l'utilisateur, transmis à Python -->
+            <!-- Identifiant -->
             <div class="form-group">
                 <label class="form-label">Identifiant / Email</label>
                 <input class="form-input" id="f-user" type="text" placeholder="ex : dorien@email.com" />
             </div>
 
-            <!-- Mot de passe — saisi ou généré, transmis à Python -->
+            <!-- Mot de passe -->
             <div class="form-group">
                 <label class="form-label">Mot de passe</label>
                 <div class="pwd-input-wrap">
@@ -907,23 +890,13 @@
                         <button class="pwd-input-btn" onclick="togglePwdVisibility()" title="Afficher / Masquer">
                             <i class="fa-solid fa-eye" id="eye-icon"></i>
                         </button>
-                        <!--
-                            BOUTON GÉNÉRER — appelle generatePassword().
-                            TODO Python : cette fonction notifie Python via
-                            window.pywebview.api.on_generate_request() pour que
-                            Python génère le mot de passe et appelle setField('f-pwd', value).
-                        -->
+                        
                         <button class="pwd-input-btn" onclick="generatePassword()" title="Générer">
                             <i class="fa-solid fa-shuffle"></i>
                         </button>
                     </div>
                 </div>
 
-                <!--
-                    BARRE DE FORCE — affichage uniquement.
-                    Piloté par Python via setStrength('weak'|'medium'|'strong'|'').
-                    Python calcule la force après analyse et appelle setStrength().
-                -->
                 <div class="strength-display">
                     <div class="strength-bar">
                         <div class="strength-bar-seg" id="seg1"></div>
@@ -937,13 +910,7 @@
 
             <div class="modal-footer">
                 <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
-                <!--
-                    BOUTON SAUVEGARDER — appelle onSaveClick().
-                    TODO Python : onSaveClick() transmet les données à Python
-                    via window.pywebview.api.save_password({site, user, pwd}).
-                    Python chiffre, stocke, calcule la force et appelle
-                    addPassword(entry) pour mettre à jour l'affichage.
-                -->
+                
                 <button class="btn btn-accent" onclick="onSaveClick()">Sauvegarder</button>
             </div>
         </div>
@@ -999,7 +966,7 @@
                         <button class="pwd-input-btn" onclick="toggleEditPwdVisibility()" title="Afficher / Masquer">
                             <i class="fa-solid fa-eye" id="edit-eye-icon"></i>
                         </button>
-                        <button class="pwd-input-btn" onclick="generateEditPassword()" title="Générer">
+                        <button class="pwd-input-btn" onclick="generatePassword()" title="Générer">
                             <i class="fa-solid fa-shuffle"></i>
                         </button>
                     </div>
@@ -1022,61 +989,57 @@
     </div>
 
     <!-- BOUTON MISE À JOUR FIXE -->
-<button id="btn-update-fixed" class="btn-update-fixed" onclick="openUpdateModal()" style="display:none;">
-    <i class="fa-solid fa-rotate"></i>
-    Mise à jour
-</button>
-<span id="app-version" style="position:fixed;bottom:14px;left:28px;font-size:11px;color:var(--text-muted);">v—</span>
+    <button id="btn-update-fixed" class="btn-update-fixed" onclick="openUpdateModal()" style="display:none;">
+        <i class="fa-solid fa-rotate"></i>
+        Mise à jour
+    </button>
+    <span id="app-version"
+        style="position:fixed;bottom:14px;left:28px;font-size:11px;color:var(--text-muted);">v—</span>
 
-<!-- MODALE CONFIRMATION MISE À JOUR -->
-<div class="modal-overlay" id="update-overlay">
-    <div class="modal" style="width:400px;">
-        <div class="modal-header">
-            <h2 class="modal-title">Mise à jour</h2>
-            <button class="modal-close" onclick="closeUpdateModal()">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-        <p style="color:var(--text-muted);font-size:15px;margin-bottom:28px;">
-            L'application va redémarrer après la mise à jour. Confirmes-tu ?
-        </p>
-        <div class="modal-footer">
-            <button class="btn btn-ghost" onclick="closeUpdateModal()">Annuler</button>
-            <button class="btn btn-accent" onclick="confirmUpdate()">
-                <i class="fa-solid fa-rotate"></i> Mettre à jour
-            </button>
+    <!-- MODALE CONFIRMATION MISE À JOUR -->
+    <div class="modal-overlay" id="update-overlay">
+        <div class="modal" style="width:400px;">
+            <div class="modal-header">
+                <h2 class="modal-title">Mise à jour</h2>
+                <button class="modal-close" onclick="closeUpdateModal()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <p style="color:var(--text-muted);font-size:15px;margin-bottom:28px;">
+                L'application va redémarrer après la mise à jour. Confirmes-tu ?
+            </p>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeUpdateModal()">Annuler</button>
+                <button class="btn btn-accent" onclick="confirmUpdate()">
+                    <i class="fa-solid fa-rotate"></i> Mettre à jour
+                </button>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- MODALE CONFIRMATION SUPPRESSION DONNÉES -->
-<div class="modal-overlay" id="delete-data-overlay">
-    <div class="modal" style="width:400px;">
-        <div class="modal-header">
-            <h2 class="modal-title">Supprimer les données</h2>
-            <button class="modal-close" onclick="closeDeleteDataModal()">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-        <p style="color:var(--text-muted);font-size:15px;margin-bottom:28px;">
-            Toutes tes données seront <strong style="color:var(--danger);">définitivement supprimées</strong>. Cette action est irréversible.
-        </p>
-        <div class="modal-footer">
-            <button class="btn btn-ghost" onclick="closeDeleteDataModal()">Annuler</button>
-            <button class="btn" style="background:var(--danger);color:#fff;font-weight:600;" onclick="confirmDeleteData()">
-                <i class="fa-solid fa-trash-can"></i> Tout supprimer
-            </button>
+    <!-- MODALE CONFIRMATION SUPPRESSION DONNÉES -->
+    <div class="modal-overlay" id="delete-data-overlay">
+        <div class="modal" style="width:400px;">
+            <div class="modal-header">
+                <h2 class="modal-title">Supprimer les données</h2>
+                <button class="modal-close" onclick="closeDeleteDataModal()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <p style="color:var(--text-muted);font-size:15px;margin-bottom:28px;">
+                Toutes tes données seront <strong style="color:var(--danger);">définitivement supprimées</strong>. Cette
+                action est irréversible.
+            </p>
+            <div class="modal-footer">
+                <button class="btn btn-ghost" onclick="closeDeleteDataModal()">Annuler</button>
+                <button class="btn" style="background:var(--danger);color:#fff;font-weight:600;"
+                    onclick="confirmDeleteData()">
+                    <i class="fa-solid fa-trash-can"></i> Tout supprimer
+                </button>
+            </div>
         </div>
     </div>
-</div>
     <script>
-        /* ═══════════════════════════════════════════════════════
-         *  DONNÉES
-         *  TODO Python : remplace ce tableau par un appel à ton API.
-         *  ex : const passwords = await pywebview.api.get_all()
-         *  Chaque entrée : { id, site, user, pwd, strength, date }
-         *  strength : 'weak' | 'medium' | 'strong'
-         * ═══════════════════════════════════════════════════════ */
         let passwords = [];
 
         async function loadPasswords() {
@@ -1090,13 +1053,13 @@
             }));
             renderList();
             // Affiche la version
-const version = await pywebview.api.get_version();
-document.getElementById('app-version').textContent = 'v' + version;
-document.getElementById('app-version').style.display = 'block';
+            const version = await pywebview.api.get_version();
+            document.getElementById('app-version').textContent = 'v' + version;
+            document.getElementById('app-version').style.display = 'block';
 
-// Affiche le bouton MAJ seulement si une update est disponible
-const hasUpdate = await pywebview.api.check_update();
-document.getElementById('btn-update-fixed').style.display = hasUpdate ? 'inline-flex' : 'none';
+            // Affiche le bouton MAJ seulement si une update est disponible
+            const hasUpdate = await pywebview.api.check_update();
+            document.getElementById('btn-update-fixed').style.display = hasUpdate ? 'inline-flex' : 'none';
         }
 
         window.addEventListener('pywebviewready', loadPasswords);
@@ -1157,22 +1120,11 @@ document.getElementById('btn-update-fixed').style.display = hasUpdate ? 'inline-
                     <button class="icon-btn" onclick="revealPwd('${p.site}')" title="Afficher le mot de passe">
                         <i class="fa-regular fa-eye"></i>
                     </button>
-                    <!--
-                        BOUTON MODIFIER — retiré de l'interface.
-                        TODO Python : appelle editPassword(id) depuis Python
-                        pour pré-remplir la modale et modifier une entrée.
-                        ex : window.pywebview.api.request_edit(id)
-                             → Python appelle editPassword(id) en JS
-                    -->
+                    <!-- BOUTON MODIFIER — retiré de l'interface.-->
                     <button class="icon-btn" onclick="openEditModal('${p.site}')" title="Modifier">
                         <i class="fa-regular fa-pen-to-square"></i>
                     </button>
-                    <!--
-                        BOUTON SUPPRIMER — appelle onDeleteClick(id).
-                        TODO Python : onDeleteClick transmet l'id à Python
-                        via window.pywebview.api.delete_password(id).
-                        Python supprime l'entrée et appelle removePassword(id).
-                    -->
+                    <!--BOUTON SUPPRIMER — appelle onDeleteClick(id). -->
                     <button class="icon-btn danger" onclick="onDeleteClick('${p.site}')" title="Supprimer">
                         <i class="fa-regular fa-trash-can"></i>
                     </button>
@@ -1203,12 +1155,6 @@ document.getElementById('btn-update-fixed').style.display = hasUpdate ? 'inline-
             showToast(pwd);
         }
 
-        /* ═══════════════════════════════════════════════════════
-         *  SUPPRIMER
-         *  onDeleteClick(id) — point d'entrée depuis le bouton HTML.
-         *  TODO Python : décommente la ligne pywebview et supprime
-         *  la ligne de fallback local quand ton API est prête.
-         * ═══════════════════════════════════════════════════════ */
         let siteToDelete = null;
 
         function onDeleteClick(site) {
@@ -1230,14 +1176,6 @@ document.getElementById('btn-update-fixed').style.display = hasUpdate ? 'inline-
             showToast('Mot de passe supprimé');
         }
 
-
-        /* ═══════════════════════════════════════════════════════
-         *  MODIFIER (réservé Python)
-         *  editPassword(id) — appelé depuis Python pour ouvrir
-         *  la modale pré-remplie avec les données de l'entrée.
-         *  TODO Python : window.pywebview.api.request_edit(id)
-         *    → Python déchiffre les données et appelle editPassword(id)
-         * ═══════════════════════════════════════════════════════ */
         function editPassword(id) {
             const p = passwords.find(x => x.id === id);
             if (!p) return;
@@ -1251,7 +1189,6 @@ document.getElementById('btn-update-fixed').style.display = hasUpdate ? 'inline-
             // Stocke l'id en cours d'édition pour onSaveClick()
             document.getElementById('modal-box').dataset.editId = id;
         }
-
 
         async function onSaveClick() {
             const data = getPwdFormData();
@@ -1267,7 +1204,6 @@ document.getElementById('btn-update-fixed').style.display = hasUpdate ? 'inline-
             }
         }
 
-        /* Appelé par Python après modification réussie */
         function updatePassword(entry) {
             passwords = passwords.map(p => p.id === entry.id ? entry : p);
             closeModal();
@@ -1275,12 +1211,6 @@ document.getElementById('btn-update-fixed').style.display = hasUpdate ? 'inline-
             showToast('Modifié avec succès');
         }
 
-        /* ═══════════════════════════════════════════════════════
-         *  getPwdFormData()
-         *  Renvoie { site, user, pwd } depuis le formulaire.
-         *  Utile pour Python : window.pywebview.api peut appeler
-         *  getPwdFormData() pour lire les champs saisis.
-         * ═══════════════════════════════════════════════════════ */
         function getPwdFormData() {
             const site = document.getElementById('f-site').value.trim();
             const user = document.getElementById('f-user').value.trim();
@@ -1289,21 +1219,11 @@ document.getElementById('btn-update-fixed').style.display = hasUpdate ? 'inline-
             return { site, user, pwd };
         }
 
-        /* ═══════════════════════════════════════════════════════
-         *  setField(fieldId, value)
-         *  Permet à Python de remplir un champ du formulaire.
-         *  ex : window.pywebview.api → JS : setField('f-pwd', generatedPwd)
-         * ═══════════════════════════════════════════════════════ */
         function setField(fieldId, value) {
             const el = document.getElementById(fieldId);
             if (el) el.value = value;
         }
 
-        /* ═══════════════════════════════════════════════════════
-         *  setStrength(level)
-         *  Appelé par Python pour mettre à jour la barre de force.
-         *  level : 'weak' | 'medium' | 'strong' | ''
-         * ═══════════════════════════════════════════════════════ */
         function setStrength(level) {
             const fill = { weak: 1, medium: 2, strong: 4 };
             const labels = { weak: 'Faible', medium: 'Moyen', strong: 'Fort', '': "En attente d'analyse…" };
@@ -1316,13 +1236,6 @@ document.getElementById('btn-update-fixed').style.display = hasUpdate ? 'inline-
             document.getElementById('modal-box').dataset.strength = level;
         }
 
-        /* ═══════════════════════════════════════════════════════
-         *  generatePassword()
-         *  Notifie Python pour qu'il génère un mot de passe fort.
-         *  TODO Python : décommente la ligne pywebview.
-         *  Python génère le mot de passe, appelle setField('f-pwd', pwd)
-         *  puis setStrength('strong').
-         * ═══════════════════════════════════════════════════════ */
         async function generatePassword() {
             const pwd = await pywebview.api.generate_password();
             setField('f-pwd', pwd);
@@ -1392,14 +1305,6 @@ document.getElementById('btn-update-fixed').style.display = hasUpdate ? 'inline-
             }
         }
 
-        async function generateEditPassword() {
-            const pwd = await pywebview.api.generate_password();
-            document.getElementById('e-pwd').value = pwd;
-            document.getElementById('e-pwd').type = 'text';
-            document.getElementById('edit-eye-icon').className = 'fa-solid fa-eye-slash';
-            showToast('Mot de passe généré');
-        }
-
         function toggleEditPwdVisibility() {
             const inp = document.getElementById('e-pwd');
             const icon = document.getElementById('edit-eye-icon');
@@ -1447,35 +1352,35 @@ document.getElementById('btn-update-fixed').style.display = hasUpdate ? 'inline-
         renderList();
 
         /* ── MISE À JOUR ── */
-function openUpdateModal() {
-    document.getElementById('update-overlay').classList.add('open');
-}
+        function openUpdateModal() {
+            document.getElementById('update-overlay').classList.add('open');
+        }
 
-function closeUpdateModal() {
-    document.getElementById('update-overlay').classList.remove('open');
-}
+        function closeUpdateModal() {
+            document.getElementById('update-overlay').classList.remove('open');
+        }
 
-async function confirmUpdate() {
-    closeUpdateModal();
-    showToast('Redémarrage en cours…');
-    await pywebview.api.update_app();
-}
+        async function confirmUpdate() {
+            closeUpdateModal();
+            showToast('Redémarrage en cours…');
+            await pywebview.api.update_app();
+        }
 
-/* ── SUPPRIMER DONNÉES ── */
-function openDeleteDataModal() {
-    document.getElementById('delete-data-overlay').classList.add('open');
-}
+        /* ── SUPPRIMER DONNÉES ── */
+        function openDeleteDataModal() {
+            document.getElementById('delete-data-overlay').classList.add('open');
+        }
 
-function closeDeleteDataModal() {
-    document.getElementById('delete-data-overlay').classList.remove('open');
-}
+        function closeDeleteDataModal() {
+            document.getElementById('delete-data-overlay').classList.remove('open');
+        }
 
-async function confirmDeleteData() {
-    await pywebview.api.delete_data();
-    closeDeleteDataModal();
-    await loadPasswords();
-    showToast('Données supprimées');
-}
+        async function confirmDeleteData() {
+            await pywebview.api.delete_data();
+            closeDeleteDataModal();
+            await loadPasswords();
+            showToast('Données supprimées');
+        }
     </script>
 
 
