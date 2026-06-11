@@ -238,6 +238,7 @@ window = webview.create_window(
     resource_path("index.html"),
     js_api=Api()
 )
-
+print("cwd =", os.getcwd())
+print("index =", resource_path("index.html"))
 check_update()
 webview.start()
