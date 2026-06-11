@@ -15,7 +15,7 @@ from tkinter import simpledialog
 import hashlib
 
 APP_DIR = os.path.dirname(sys.executable if getattr(sys, "frozen", False) else os.path.abspath(__file__))
-VERSION = "1.2.0"
+VERSION = "1.3.0"
 
 # ----- Definition des fonctions -----
 def get_path(filename):
@@ -183,7 +183,7 @@ def check_update():
         r = requests.get(download_url)
         r.raise_for_status()
 
-        with open("VaultKey_new.exe", "wb") as file:
+        with open(os.path.join(APP_DIR, "VaultKey_new.exe"), "wb") as file:
             file.write(r.content)
 
         return True
@@ -210,13 +210,17 @@ def update_app():
 
         del /f /q "{APP_DIR}\\VaultKey.exe"
 
-        timeout /t 1 /nobreak >nul
+        timeout /t 2 /nobreak >nul
 
         ren "{APP_DIR}\\VaultKey_new.exe" VaultKey.exe
 
-        timeout /t 1 /nobreak >nul
+        timeout /t 5 /nobreak >nul
 
-        start "" "{APP_DIR}\\VaultKey.exe"
+        cd /d "{APP_DIR}"
+
+        start "" /D "{APP_DIR}" VaultKey.exe
+
+        pause
 
         del "%~f0"
     """
@@ -226,7 +230,7 @@ def update_app():
         file.write(bat)
 
     subprocess.Popen(
-        ["cmd", "/c", bat_path],
+        ["cmd", "/k", bat_path],
         cwd=APP_DIR
     )
 
