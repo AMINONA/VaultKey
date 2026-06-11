@@ -971,7 +971,7 @@
                         <button class="pwd-input-btn" onclick="toggleEditPwdVisibility()" title="Afficher / Masquer">
                             <i class="fa-solid fa-eye" id="edit-eye-icon"></i>
                         </button>
-                        <button class="pwd-input-btn" onclick="generateEditPassword()" title="Générer">
+                        <button class="pwd-input-btn" onclick="generatePassword()" title="Générer">
                             <i class="fa-solid fa-shuffle"></i>
                         </button>
                     </div>
@@ -1319,14 +1319,6 @@
                 await loadPasswords();
                 showToast('Mot de passe modifié');
             }
-        }
-
-        async function generateEditPassword() {
-            const pwd = await pywebview.api.generate_password();
-            document.getElementById('e-pwd').value = pwd;
-            document.getElementById('e-pwd').type = 'text';
-            document.getElementById('edit-eye-icon').className = 'fa-solid fa-eye-slash';
-            showToast('Mot de passe généré');
         }
 
         function toggleEditPwdVisibility() {
