@@ -484,7 +484,7 @@
             border-color: rgba(255, 92, 92, 0.3);
         }
 
-        /* MODAL AJOUT — champs en lecture seule, remplis par Python */
+        /* MODAL AJOUT */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -589,11 +589,7 @@
             border-color: rgba(232, 255, 71, 0.35);
         }
 
-        /*
-         * Champ mot de passe avec boutons afficher + générer
-         * Le champ est rempli et soumis par Python.
-         * Le JS ne fait qu'afficher/masquer et déclencher la génération.
-         */
+
         .pwd-input-wrap {
             position: relative;
         }
@@ -641,7 +637,7 @@
             color: var(--text);
         }
 
-        /* STRENGTH DISPLAY — piloté uniquement par Python via setStrength() */
+        /* STRENGTH DISPLAY */
         .strength-display {
             margin-top: 12px;
             display: flex;
@@ -868,16 +864,6 @@
 
     </div>
 
-    <!-- ─────────────────────────────────────────
-         MODAL AJOUT
-         Les champs site / user / pwd sont remplis
-         et soumis par Python via les fonctions :
-           • openModal()         → ouvre la fenêtre
-           • closeModal()        → ferme la fenêtre
-           • setStrength(level)  → met à jour la barre de force
-           • getPwdFormData()    → récupère {site, user, pwd}
-           • addPassword(entry)  → ajoute une entrée depuis Python
-         ───────────────────────────────────────── -->
     <div class="modal-overlay" id="modal-overlay">
         <div class="modal" id="modal-box">
             <div class="modal-header">
@@ -887,19 +873,19 @@
                 </button>
             </div>
 
-            <!-- Nom du site — saisi par l'utilisateur, transmis à Python -->
+            <!-- Nom du site -->
             <div class="form-group">
                 <label class="form-label">Nom du site</label>
                 <input class="form-input" id="f-site" type="text" placeholder="ex : GitHub, Netflix…" />
             </div>
 
-            <!-- Identifiant — saisi par l'utilisateur, transmis à Python -->
+            <!-- Identifiant -->
             <div class="form-group">
                 <label class="form-label">Identifiant / Email</label>
                 <input class="form-input" id="f-user" type="text" placeholder="ex : dorien@email.com" />
             </div>
 
-            <!-- Mot de passe — saisi ou généré, transmis à Python -->
+            <!-- Mot de passe -->
             <div class="form-group">
                 <label class="form-label">Mot de passe</label>
                 <div class="pwd-input-wrap">
@@ -909,23 +895,13 @@
                         <button class="pwd-input-btn" onclick="togglePwdVisibility()" title="Afficher / Masquer">
                             <i class="fa-solid fa-eye" id="eye-icon"></i>
                         </button>
-                        <!--
-                            BOUTON GÉNÉRER — appelle generatePassword().
-                            TODO Python : cette fonction notifie Python via
-                            window.pywebview.api.on_generate_request() pour que
-                            Python génère le mot de passe et appelle setField('f-pwd', value).
-                        -->
+                        
                         <button class="pwd-input-btn" onclick="generatePassword()" title="Générer">
                             <i class="fa-solid fa-shuffle"></i>
                         </button>
                     </div>
                 </div>
 
-                <!--
-                    BARRE DE FORCE — affichage uniquement.
-                    Piloté par Python via setStrength('weak'|'medium'|'strong'|'').
-                    Python calcule la force après analyse et appelle setStrength().
-                -->
                 <div class="strength-display">
                     <div class="strength-bar">
                         <div class="strength-bar-seg" id="seg1"></div>
@@ -939,13 +915,7 @@
 
             <div class="modal-footer">
                 <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
-                <!--
-                    BOUTON SAUVEGARDER — appelle onSaveClick().
-                    TODO Python : onSaveClick() transmet les données à Python
-                    via window.pywebview.api.save_password({site, user, pwd}).
-                    Python chiffre, stocke, calcule la force et appelle
-                    addPassword(entry) pour mettre à jour l'affichage.
-                -->
+                
                 <button class="btn btn-accent" onclick="onSaveClick()">Sauvegarder</button>
             </div>
         </div>
@@ -1075,13 +1045,6 @@
         </div>
     </div>
     <script>
-        /* ═══════════════════════════════════════════════════════
-         *  DONNÉES
-         *  TODO Python : remplace ce tableau par un appel à ton API.
-         *  ex : const passwords = await pywebview.api.get_all()
-         *  Chaque entrée : { id, site, user, pwd, strength, date }
-         *  strength : 'weak' | 'medium' | 'strong'
-         * ═══════════════════════════════════════════════════════ */
         let passwords = [];
 
         async function loadPasswords() {
@@ -1208,12 +1171,6 @@
             showToast(pwd);
         }
 
-        /* ═══════════════════════════════════════════════════════
-         *  SUPPRIMER
-         *  onDeleteClick(id) — point d'entrée depuis le bouton HTML.
-         *  TODO Python : décommente la ligne pywebview et supprime
-         *  la ligne de fallback local quand ton API est prête.
-         * ═══════════════════════════════════════════════════════ */
         let siteToDelete = null;
 
         function onDeleteClick(site) {
@@ -1235,14 +1192,6 @@
             showToast('Mot de passe supprimé');
         }
 
-
-        /* ═══════════════════════════════════════════════════════
-         *  MODIFIER (réservé Python)
-         *  editPassword(id) — appelé depuis Python pour ouvrir
-         *  la modale pré-remplie avec les données de l'entrée.
-         *  TODO Python : window.pywebview.api.request_edit(id)
-         *    → Python déchiffre les données et appelle editPassword(id)
-         * ═══════════════════════════════════════════════════════ */
         function editPassword(id) {
             const p = passwords.find(x => x.id === id);
             if (!p) return;
@@ -1256,7 +1205,6 @@
             // Stocke l'id en cours d'édition pour onSaveClick()
             document.getElementById('modal-box').dataset.editId = id;
         }
-
 
         async function onSaveClick() {
             const data = getPwdFormData();
@@ -1272,7 +1220,6 @@
             }
         }
 
-        /* Appelé par Python après modification réussie */
         function updatePassword(entry) {
             passwords = passwords.map(p => p.id === entry.id ? entry : p);
             closeModal();
@@ -1280,12 +1227,6 @@
             showToast('Modifié avec succès');
         }
 
-        /* ═══════════════════════════════════════════════════════
-         *  getPwdFormData()
-         *  Renvoie { site, user, pwd } depuis le formulaire.
-         *  Utile pour Python : window.pywebview.api peut appeler
-         *  getPwdFormData() pour lire les champs saisis.
-         * ═══════════════════════════════════════════════════════ */
         function getPwdFormData() {
             const site = document.getElementById('f-site').value.trim();
             const user = document.getElementById('f-user').value.trim();
@@ -1294,21 +1235,11 @@
             return { site, user, pwd };
         }
 
-        /* ═══════════════════════════════════════════════════════
-         *  setField(fieldId, value)
-         *  Permet à Python de remplir un champ du formulaire.
-         *  ex : window.pywebview.api → JS : setField('f-pwd', generatedPwd)
-         * ═══════════════════════════════════════════════════════ */
         function setField(fieldId, value) {
             const el = document.getElementById(fieldId);
             if (el) el.value = value;
         }
 
-        /* ═══════════════════════════════════════════════════════
-         *  setStrength(level)
-         *  Appelé par Python pour mettre à jour la barre de force.
-         *  level : 'weak' | 'medium' | 'strong' | ''
-         * ═══════════════════════════════════════════════════════ */
         function setStrength(level) {
             const fill = { weak: 1, medium: 2, strong: 4 };
             const labels = { weak: 'Faible', medium: 'Moyen', strong: 'Fort', '': "En attente d'analyse…" };
@@ -1321,13 +1252,6 @@
             document.getElementById('modal-box').dataset.strength = level;
         }
 
-        /* ═══════════════════════════════════════════════════════
-         *  generatePassword()
-         *  Notifie Python pour qu'il génère un mot de passe fort.
-         *  TODO Python : décommente la ligne pywebview.
-         *  Python génère le mot de passe, appelle setField('f-pwd', pwd)
-         *  puis setStrength('strong').
-         * ═══════════════════════════════════════════════════════ */
         async function generatePassword() {
             const pwd = await pywebview.api.generate_password();
             setField('f-pwd', pwd);
