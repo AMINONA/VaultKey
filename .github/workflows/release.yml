@@ -1,0 +1,31 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version"
+        required: true
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Télécharger l'artifact du dernier build
+        uses: dawidd6/action-download-artifact@v9
+        with:
+          workflow: build.yml
+          name: VaultKey
+          path: artifact
+
+      - name: Créer la release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ github.event.inputs.version }}
+          name: VaultKey v${{ github.event.inputs.version }}
+          files: artifact/VaultKey.exe
