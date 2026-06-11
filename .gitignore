@@ -1,2 +1,5 @@
 accounts.json
 key.key
+dist/
+build/
+VaultKey.spec
