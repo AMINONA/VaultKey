@@ -308,6 +308,33 @@
             font-size: 12px;
         }
 
+        /* BOUTON MISE À JOUR FIXE */
+.btn-update-fixed {
+    position: fixed;
+    bottom: 28px;
+    left: 28px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    z-index: 50;
+    border-radius: 12px;
+    padding: 10px 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.btn-update-fixed:hover {
+    border-color: var(--border-hover);
+    color: var(--text);
+    background: var(--bg-card2);
+}
+
         /* PASSWORD LIST */
         .pwd-list {
             display: flex;
@@ -813,21 +840,26 @@
             <span class="content-count" id="results-count">0 entrée</span>
         </div>
 
-        <!-- FILTER TABS -->
-        <div class="filter-tabs">
-            <button class="filter-tab active" onclick="setTab(this,'all')">
-                <i class="fa-solid fa-list"></i> Tous
-            </button>
-            <button class="filter-tab" onclick="setTab(this,'strong')">
-                <i class="fa-solid fa-shield-halved"></i> Forts
-            </button>
-            <button class="filter-tab" onclick="setTab(this,'medium')">
-                <i class="fa-solid fa-triangle-exclamation"></i> Moyens
-            </button>
-            <button class="filter-tab" onclick="setTab(this,'weak')">
-                <i class="fa-solid fa-skull-crossbones"></i> Faibles
-            </button>
-        </div>
+        <!-- FILTER TABS + BOUTON SUPPRIMER DONNÉES -->
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+    <div class="filter-tabs" style="margin-bottom:0;">
+        <button class="filter-tab active" onclick="setTab(this,'all')">
+            <i class="fa-solid fa-list"></i> Tous
+        </button>
+        <button class="filter-tab" onclick="setTab(this,'strong')">
+            <i class="fa-solid fa-shield-halved"></i> Forts
+        </button>
+        <button class="filter-tab" onclick="setTab(this,'medium')">
+            <i class="fa-solid fa-triangle-exclamation"></i> Moyens
+        </button>
+        <button class="filter-tab" onclick="setTab(this,'weak')">
+            <i class="fa-solid fa-skull-crossbones"></i> Faibles
+        </button>
+    </div>
+    <button class="btn" style="background:transparent;border:1px solid rgba(255,92,92,0.3);color:var(--danger);font-size:13px;padding:7px 16px;border-radius:100px;" onclick="openDeleteDataModal()">
+        <i class="fa-solid fa-trash-can"></i> Supprimer les données
+    </button>
+</div>
 
         <!-- PASSWORD LIST -->
         <div class="pwd-list" id="pwd-list"></div>
@@ -989,6 +1021,53 @@
         </div>
     </div>
 
+    <!-- BOUTON MISE À JOUR FIXE -->
+<button class="btn-update-fixed" onclick="openUpdateModal()">
+    <i class="fa-solid fa-rotate"></i>
+    Mise à jour
+</button>
+
+<!-- MODALE CONFIRMATION MISE À JOUR -->
+<div class="modal-overlay" id="update-overlay">
+    <div class="modal" style="width:400px;">
+        <div class="modal-header">
+            <h2 class="modal-title">Mise à jour</h2>
+            <button class="modal-close" onclick="closeUpdateModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <p style="color:var(--text-muted);font-size:15px;margin-bottom:28px;">
+            L'application va redémarrer après la mise à jour. Confirmes-tu ?
+        </p>
+        <div class="modal-footer">
+            <button class="btn btn-ghost" onclick="closeUpdateModal()">Annuler</button>
+            <button class="btn btn-accent" onclick="confirmUpdate()">
+                <i class="fa-solid fa-rotate"></i> Mettre à jour
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- MODALE CONFIRMATION SUPPRESSION DONNÉES -->
+<div class="modal-overlay" id="delete-data-overlay">
+    <div class="modal" style="width:400px;">
+        <div class="modal-header">
+            <h2 class="modal-title">Supprimer les données</h2>
+            <button class="modal-close" onclick="closeDeleteDataModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <p style="color:var(--text-muted);font-size:15px;margin-bottom:28px;">
+            Toutes tes données seront <strong style="color:var(--danger);">définitivement supprimées</strong>. Cette action est irréversible.
+        </p>
+        <div class="modal-footer">
+            <button class="btn btn-ghost" onclick="closeDeleteDataModal()">Annuler</button>
+            <button class="btn" style="background:var(--danger);color:#fff;font-weight:600;" onclick="confirmDeleteData()">
+                <i class="fa-solid fa-trash-can"></i> Tout supprimer
+            </button>
+        </div>
+    </div>
+</div>
     <script>
         /* ═══════════════════════════════════════════════════════
          *  DONNÉES
@@ -1357,6 +1436,37 @@
         }
 
         renderList();
+
+        /* ── MISE À JOUR ── */
+function openUpdateModal() {
+    document.getElementById('update-overlay').classList.add('open');
+}
+
+function closeUpdateModal() {
+    document.getElementById('update-overlay').classList.remove('open');
+}
+
+async function confirmUpdate() {
+    closeUpdateModal();
+    showToast('Redémarrage en cours…');
+    await pywebview.api.update_app();
+}
+
+/* ── SUPPRIMER DONNÉES ── */
+function openDeleteDataModal() {
+    document.getElementById('delete-data-overlay').classList.add('open');
+}
+
+function closeDeleteDataModal() {
+    document.getElementById('delete-data-overlay').classList.remove('open');
+}
+
+async function confirmDeleteData() {
+    await pywebview.api.delete_data();
+    closeDeleteDataModal();
+    await loadPasswords();
+    showToast('Données supprimées');
+}
     </script>
 
 
