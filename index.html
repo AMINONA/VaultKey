@@ -983,7 +983,7 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-ghost" onclick="closeEditModal()">Annuler</button>
-                <button class="btn btn-accent" onclick="confirmEdit()">Sauvegarder</button>
+                <button class="btn btn-accent" onclick="confirmEdit()">Modifier</button>
             </div>
         </div>
     </div>
@@ -1057,7 +1057,7 @@
             document.getElementById('app-version').textContent = 'v' + version;
             document.getElementById('app-version').style.display = 'block';
 
-            // Affiche le bouton MAJ seulement si une update est disponible
+            // Affiche le bouton MAJ 
             const hasUpdate = await pywebview.api.check_update();
             document.getElementById('btn-update-fixed').style.display = hasUpdate ? 'inline-flex' : 'none';
         }
