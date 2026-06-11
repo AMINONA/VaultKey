@@ -7,6 +7,12 @@ import secrets
 import string
 import time
 import shutil
+import requests
+import tempfile
+import subprocess
+from urllib.request import urlopen
+
+VERSION = "0.1.0"
 
 # ----- Definition des fonctions -----
 def get_path(filename):
@@ -144,7 +150,6 @@ def update_account(site,identifiant,password):
     
     return "account updated"
 
-# ------ A FAIRE ------
 def delete_data():
     try:
         shutil.rmtree(
@@ -156,6 +161,54 @@ def delete_data():
 
     except Exception as e:
         return f"error: {e}"
+
+def check_update():
+    try:
+        with urlopen(
+            "https://api.github.com/repos/TON_COMPTE/VaultKey/releases/latest"
+        ) as response:
+            data = json.load(response)
+
+        latest_version = data["tag_name"].replace("v", "")
+
+        if latest_version == VERSION:
+            return False
+
+        download_url = data["assets"][0]["browser_download_url"]
+
+        r = requests.get(download_url)
+        r.raise_for_status()
+
+        with open("VaultKey_new.exe", "wb") as file:
+            file.write(r.content)
+
+        return True
+
+    except Exception as e:
+        print("Erreur MAJ :", e)
+        return False
+
+def update_app():
+    bat = """
+        @echo off
+
+        timeout /t 2 > nul
+
+        del VaultKey.exe
+
+        ren VaultKey_new.exe VaultKey.exe
+
+        start "" VaultKey.exe
+
+        del "%~f0"
+    """
+
+    with open("update.bat", "w") as file:
+        file.write(bat)
+
+    subprocess.Popen("update.bat", shell=True)
+
+    os._exit(0)
 
 # ----- Fonctions exposés au JS -----
 class Api:
@@ -175,6 +228,8 @@ class Api:
         return update_account(site,identifiant,password)
     def delete_data(self):
         return delete_data()
+    def update_app(self):
+        return update_app()
 
 # ----- Création et lancement de la fenêtre interface -----
 window = webview.create_window(
