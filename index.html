@@ -1022,7 +1022,7 @@
     </div>
 
     <!-- BOUTON MISE À JOUR FIXE -->
-<button class="btn-update-fixed" onclick="openUpdateModal()">
+<button id="btn-update-fixed" class="btn-update-fixed" onclick="openUpdateModal()" style="display:none;">
     <i class="fa-solid fa-rotate"></i>
     Mise à jour
 </button>
@@ -1090,8 +1090,11 @@
             }));
             renderList();
             // Affiche la version
-    const version = await pywebview.api.get_version();
-    document.getElementById('app-version').textContent = 'v' + version;
+            const version = await pywebview.api.get_version();
+            document.getElementById('app-version').textContent = 'v' + version;
+            const hasUpdate = await pywebview.api.check_update();
+            document.getElementById('btn-update-fixed').style.display = hasUpdate ? 'inline-flex' : 'none';
+            document.getElementById('app-version').style.display = hasUpdate ? 'block' : 'none';
         }
 
         window.addEventListener('pywebviewready', loadPasswords);
