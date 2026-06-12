@@ -2,6 +2,11 @@ name: Build EXE
 
 on:
   workflow_dispatch:
+    inputs:
+        create_release:
+          description: "Créer une release après le build"
+          type: boolean
+          default: false
 
 jobs:
   build:
@@ -31,3 +36,15 @@ jobs:
         with:
           name: VaultKey
           path: dist/*
+      - name: Déclencher Release
+        if: inputs.create_release
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.PAT_TOKEN }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: "release.yml",
+              ref: context.ref.replace("refs/heads/", "")
+            })
