@@ -213,7 +213,7 @@ def update_app():
         cd /d "{APP_DIR}"
 
         explorer.exe "{APP_DIR}\\VaultKey.exe"
-        del "%~f0"
+        cmd /c del "%~f0"
     """
     
     with open(bat_path, "w", encoding="utf-8") as file:
@@ -221,7 +221,7 @@ def update_app():
         file.write(bat)
 
     subprocess.Popen(
-        ["cmd", "/k", bat_path],
+        ["cmd", "/c", bat_path],
         cwd=APP_DIR
     )
 
@@ -292,7 +292,6 @@ window = webview.create_window(
     js_api=Api()
 )
 
-check_update()
 
 if not master_password_exists():
     password = ask_master_password()
@@ -309,4 +308,5 @@ else:
         print("Mot de passe incorrect")
         sys.exit()
 
+check_update()
 webview.start()
