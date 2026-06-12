@@ -207,7 +207,7 @@ def update_app():
         taskkill /f /im VaultKey.exe >nul 2>&1
         
         REM deleting old VaultKey.exe...
-        timeout /t 10 /nobreak >nul
+        timeout /t 1 /nobreak >nul
 
         del /f /q "{APP_DIR}\\VaultKey.exe"
 
@@ -215,12 +215,12 @@ def update_app():
 
         ren "{APP_DIR}\\VaultKey_new.exe" VaultKey.exe
 
-        timeout /t 5 /nobreak >nul
+        timeout /t 2 /nobreak >nul
 
         cd /d "{APP_DIR}"
         
         REM launch VaultKey.exe
-        timeout /t 5 /nobreak >nul
+        timeout /t 2 /nobreak >nul
 
         "{APP_DIR}\\VaultKey.exe"
         del "%~f0"
