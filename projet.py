@@ -202,27 +202,17 @@ def update_app():
 
     bat = f"""@echo off
 
-        timeout /t 3 /nobreak >nul
-
         taskkill /f /im VaultKey.exe >nul 2>&1
-        
-        REM deleting old VaultKey.exe...
+
         timeout /t 1 /nobreak >nul
 
         del /f /q "{APP_DIR}\\VaultKey.exe"
 
-        timeout /t 2 /nobreak >nul
-
         ren "{APP_DIR}\\VaultKey_new.exe" VaultKey.exe
 
-        timeout /t 2 /nobreak >nul
-
         cd /d "{APP_DIR}"
-        
-        REM launch VaultKey.exe
-        timeout /t 2 /nobreak >nul
 
-        "{APP_DIR}\\VaultKey.exe"
+        explorer.exe "{APP_DIR}\\VaultKey.exe"
         del "%~f0"
     """
     
