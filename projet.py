@@ -308,5 +308,5 @@ else:
         print("Mot de passe incorrect")
         sys.exit()
 
-check_update()
 webview.start()
+check_update()
