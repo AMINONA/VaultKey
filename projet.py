@@ -222,7 +222,7 @@ def update_app():
         REM launch VaultKey.exe
         timeout /t 5 /nobreak >nul
 
-        start "" "{APP_DIR}\VaultKey.exe"
+        explorer.exe "%APP_DIR%\VaultKey.exe"
 
         del "%~f0"
     """
