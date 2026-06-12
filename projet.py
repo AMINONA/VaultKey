@@ -222,7 +222,8 @@ def update_app():
 
     subprocess.Popen(
         ["cmd", "/c", bat_path],
-        cwd=APP_DIR
+        cwd=APP_DIR,
+        creationflags=subprocess.CREATE_NO_WINDOW
     )
 
     os._exit(0)
@@ -308,5 +309,5 @@ else:
         print("Mot de passe incorrect")
         sys.exit()
 
-webview.start()
 check_update()
+webview.start()
